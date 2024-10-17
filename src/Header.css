@@ -1,0 +1,18 @@
+.header{
+    position: relative;
+    top:0;
+    /* margin-bottom: 50px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding-top: 30px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #b03a2e;
+}
+
+.header img{
+    width: 500px;
+    height: auto;
+}

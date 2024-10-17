@@ -1,0 +1,15 @@
+.first-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px 0px;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row-reverse;
+    gap:0 50px;
+    justify-content: center;
+    align-items: center;
+}

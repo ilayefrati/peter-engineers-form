@@ -1,0 +1,14 @@
+.image-and-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 40px 0px;
+}
+
+.image-and-title img{
+    align-self: center;
+    width: 300px;
+    height: auto;
+    object-fit: fill;
+}

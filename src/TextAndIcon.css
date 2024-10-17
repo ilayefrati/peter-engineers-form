@@ -1,0 +1,17 @@
+.icon-text {
+    direction: ltr;
+    font-size: 1.5rem;
+    color: #48508a;
+}
+
+.icon-text i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    color: #48508a;
+}
+
+.icon-text a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #48508a;
+}

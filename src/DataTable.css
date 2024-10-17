@@ -1,0 +1,41 @@
+.table-container {
+    width: 100%;
+    max-height: 350px; /* Set a fixed height for scrollable body */
+    overflow-y: auto; /* Enable vertical scroll */
+    border: 1px solid #ddd;
+  }
+  
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders */
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .styled-table thead th {
+    position: sticky; /* Make the header sticky */
+    top: 0; /* Stick the header at the top */
+    background-color: #f4f4f4;
+    z-index: 2;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .styled-table tbody td {
+    padding: 12px 15px;
+    border: 1px solid #ddd; /* Add lines between rows and columns */
+  }
+  
+  .styled-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light background color for alternate rows */
+  }
+  
+  .styled-table tr:hover {
+    background-color: #f1f1f1; /* Row hover effect */
+  }
+  
+  .styled-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  

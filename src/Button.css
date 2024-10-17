@@ -1,0 +1,20 @@
+.button {
+    min-width: 150px;
+    /* Ensures both buttons are the same size */
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid #3f6cb1;
+    cursor: pointer;
+}
+
+.primary {
+    background-color: #3f6cb1;
+    color: white;
+}
+
+.secondary {
+    background-color: white;
+    color: #3f6cb1;
+}

@@ -1,13 +1,155 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  box-sizing: border-box;
+  /* overflow-x:hidden; */
+  /* border:2px solid red; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  font-size: 14px;
+}
+
+body {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  font-family: 'Aharoni CLM', sans-serif;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 6rem;
+  margin: 0;
+  font-family: 'Aharoni CLM Bold', sans-serif;
+  color:#333;
+  direction: rtl;
+}
+
+h2 {
+  font-size: 3rem;
+  margin: 0;
+  direction: rtl;
+  font-family: 'Aharoni CLM Bold', sans-serif;
+  color:#333;
+}
+
+h3 {
+  font-size: 2rem;
+  margin: 0;
+  font-family: 'Aharoni CLM Bold', sans-serif;
+  color:#333;
+  direction: rtl;
+}
+
+h4 {
+  margin: 0;
+  font-size: 1.3rem;
+  color:#333;  
+  direction: rtl;
+  font-family: 'Aharoni CLM Bold', sans-serif;
+
+}
+
+p {
+  font-size: 1.5rem;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-family: 'Aharoni CLM', sans-serif;
+  color:#333;
+  direction: rtl;
+}
+
+a {
+  font-size: 1.8rem;
+  font-family: 'Aharoni CLM', sans-serif;
+  color:#333;
+  direction: rtl;
+  text-decoration: none;
+  /* so there will be no underline */
+}
+
+label{
+  font-size: 1.5rem;
+  font-family: 'Aharoni CLM', sans-serif;
+  color:#333;
+  direction: rtl;
+  white-space: nowrap;
+}
+
+select{
+  font-size: 1.5rem;
+  direction: rtl;
+  font-family: 'Aharoni CLM', sans-serif;
+  color:#333;
+}
+
+input{
+  direction: rtl;
+}
+
+textarea{
+  direction: rtl;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+  html {
+      font-size: 7px;
+  }
+  
+  h1{
+      font-size: 4rem;
+  }
+  
+  h2{
+    font-size: 3.5rem;
+  }
+
+  h3{
+      font-size: 3rem;
+  }
+
+  h4{
+    font-size: 2rem;
+  }
+
+  p{
+      font-size: 2.5rem;
+  }
+
+  a{
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  html {
+      font-size: 9px;
+  }
+
+  h1{
+      font-size: 4rem;
+  }
+
+  h3{
+      font-size: 2.5rem;
+  }
+
+  p{
+      font-size: 2rem;
+  }
+
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  html {
+      font-size: 11px;
+  }
+  
+  h3{
+      font-size: 2.5rem;
+  }
+
+  p{
+      font-size: 2rem;
+  }
 }
