@@ -1,5 +1,5 @@
 .table-container {
-    width: 100%;
+    width: 80%;
     max-height: 350px; /* Set a fixed height for scrollable body */
     overflow-y: auto; /* Enable vertical scroll */
     border: 1px solid #ddd;

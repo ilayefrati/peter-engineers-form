@@ -11,8 +11,8 @@ const SumTable = () => {
       <table className="styled-table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Name</th>
+            <th>מספר ליקוי (מתואם לטבלה)</th>
+            <th>דרגת חומרה</th>
           </tr>
         </thead>
         <tbody>

@@ -1,11 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-import FirstPage from './FirstPage';
+import logo from "./logo.svg";
+import "./App.css";
+import FirstPage from "./FirstPage";
+import SecondPage from "./SecondPage";
+import { TableContextProvider } from "./TableContextProvider";
 
 function App() {
   return (
     <div className="App">
-      <FirstPage/>
+      <TableContextProvider>
+        <FirstPage />
+        <SecondPage />
+      </TableContextProvider>
     </div>
   );
 }
