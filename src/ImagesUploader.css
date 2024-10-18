@@ -2,19 +2,13 @@
     max-width: 768px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
     text-align: center;
-}
-
-.title {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
 }
 
 .uploader-box {
     width: 300px;
     height: 200px;
-    border: 2px dashed #007bff;
+    border: 3px dashed #3f6cb1;
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -33,10 +27,14 @@
     cursor: pointer;
 }
 
+.uploader-box label p{
+    color: #3f6cb1;
+}
+
 .upload-icon {
-    width: 50px;
-    height: 50px;
-    background-image: url('/public/media/upload.png'); /* Add your image upload icon here */
+    width: 100px;
+    height: 100px;
+    background-image: url('/public/media/upload_images_icon.png'); /* Add your image upload icon here */
     background-size: contain;
     background-repeat: no-repeat;
     margin-bottom: 10px;
@@ -49,7 +47,7 @@
 .preview-section {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px 0px;
 }
 
 .preview-item {
@@ -66,8 +64,8 @@
 
 .remove-button {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: -8px;
+    right: -8px;
     background: red;
     color: white;
     border: none;
@@ -79,16 +77,6 @@
 
 .button-group {
     margin-top: 20px;
-}
-
-.clear-button,
-.render-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-right: 10px;
-    cursor: pointer;
 }
 
 .rendered-images {

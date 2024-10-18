@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ImagesUploader.css"; // Importing CSS for styling
 import ImageAndTitle from "./ImageAndTitle";
+import Button from "./Button";
 
 function ImagesUploader() {
   const [images, setImages] = useState([]);
@@ -35,8 +36,6 @@ function ImagesUploader() {
 
   return (
     <div className="container">
-      <h2 className="title">Peter Engineers & Consultants ltd</h2>
-
       {/* Image selection (file, gallery, camera) */}
       <div className="uploader-box">
         <input
@@ -69,15 +68,10 @@ function ImagesUploader() {
       </div>
 
       {/* Clear and Render buttons */}
-      <div className="button-group">
-        <button onClick={handleClearImages} className="clear-button">
-          נקה
-        </button>
-        <button onClick={handleRenderImages} className="render-button">
-          אשר
-        </button>
+      <div className="buttons-container">
+        <Button type="primary" text="אשר" onClick={handleRenderImages} />
+        <Button type="secondary" text="נקה" onClick={handleClearImages} />
       </div>
-
       {/* Rendered images in a column */}
       {showRenderedImages && (
         <div className="rendered-images">

@@ -1,6 +1,6 @@
 .classic-page{
     width: 100vw;
-    /* because this is a page it always needs to take 100vw of width and not by the content (the height dosent need to be 100vh - its determined by the content */
+    /* because this is a page it always needs to take 100vw of width and not by the content (the height dosent need to be 100vh - its determined by the content) */
     height: fit-content;
     padding: 30px 20px;
     background-color: #f4f4f4;

@@ -3,6 +3,7 @@ import "./App.css";
 import FirstPage from "./FirstPage";
 import SecondPage from "./SecondPage";
 import { TableContextProvider } from "./TableContextProvider";
+import ThirdPage from "./ThirdPage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <FirstPage />
         <SecondPage />
       </TableContextProvider>
+      <ThirdPage/>
     </div>
   );
 }
