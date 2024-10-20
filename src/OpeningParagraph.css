@@ -51,9 +51,8 @@
 }
 
 .text-paragraph-bottom{
-    text-align: right;
+    text-align: center;
     line-height: 1.5;
-    align-self: flex-start;
 }
 
 .text-paragraph-bottom p{

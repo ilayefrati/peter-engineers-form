@@ -1,41 +1,79 @@
 .table-container {
-    width: 80%;
-    max-height: 350px; /* Set a fixed height for scrollable body */
-    overflow-y: auto; /* Enable vertical scroll */
-    border: 1px solid #ddd;
-  }
-  
-  .styled-table {
-    width: 100%;
-    border-collapse: collapse; /* Collapse borders */
-    font-size: 16px;
-    text-align: center;
-  }
-  
-  .styled-table thead th {
-    position: sticky; /* Make the header sticky */
-    top: 0; /* Stick the header at the top */
-    background-color: #f4f4f4;
-    z-index: 2;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-  }
-  
-  .styled-table tbody td {
-    padding: 12px 15px;
-    border: 1px solid #ddd; /* Add lines between rows and columns */
-  }
-  
-  .styled-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Light background color for alternate rows */
-  }
-  
-  .styled-table tr:hover {
-    background-color: #f1f1f1; /* Row hover effect */
-  }
-  
-  .styled-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
+  width: 80%;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column; /* Flex container to keep elements in flow */
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  direction: rtl;
+  flex: 1; /* Make the table take up remaining space */
+}
+
+.styled-table thead th {
+  position: sticky;
+  /* Make the header sticky */
+  top: 0;
+  /* Stick the header at the top */
+  background-color: #f4f4f4;
+  z-index: 2;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.styled-table tbody td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  /* Add lines between rows and columns */
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+  /* Light background color for alternate rows */
+}
+
+.styled-table tr:hover {
+  background-color: #f1f1f1;
+  /* Row hover effect */
+}
+
+.styled-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.add-row-container {
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+  padding: 10px;
+}
+
+.add-row {
+  width: 30px;
+  height: 30px; /* Keep button height small */
+  min-height: 30px; /* Ensure the button has a minimum height */
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+  color: #48508a;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.add-row:hover {
+  background-color: #f0f0f0;
+}
+
+.add-row:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 255, 0.3);
+}

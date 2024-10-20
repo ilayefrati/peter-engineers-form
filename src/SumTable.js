@@ -4,7 +4,7 @@ import { TableContext } from "./TableContextProvider"; // Import the context
 import './SumTable.css'
 
 const SumTable = () => {
-  const { people } = useContext(TableContext); // Access the people array from context
+  const { table } = useContext(TableContext); // Access the people array from context
 
   return (
     <div className="sum-table-container">
@@ -16,10 +16,10 @@ const SumTable = () => {
           </tr>
         </thead>
         <tbody>
-          {people.map((person, index) => (
+          {table.map((row, index) => (
             <tr key={index}>
-              <td>{person.id}</td>
-              <td>{person.name}</td>
+              <td>{row.index}</td>
+              <td>{row.severity}</td>
             </tr>
           ))}
         </tbody>

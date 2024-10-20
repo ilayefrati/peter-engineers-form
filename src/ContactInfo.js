@@ -2,7 +2,7 @@ import React from "react";
 import "./ContactInfo.css";
 import TextAndIcon from "./TextAndIcon";
 
-function ContactInfo({ numPage }) {
+function ContactInfo() {
   let icon_list = [
     { icon: "fa-solid fa-envelope-open-text", text: "mailto:petru@pbng.co.il" },
     { icon: "fa-solid fa-phone", text: "972-86239841" },
@@ -30,7 +30,6 @@ function ContactInfo({ numPage }) {
         icon="fa-solid fa-city"
         text="Omer Industrial Park, building 10 פארק תעשיות עומר, בניין  "
       />
-      <p className="num-page">{numPage}</p>
     </div>
   );
 }

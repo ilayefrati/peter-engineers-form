@@ -1,60 +1,110 @@
-// Table.js
 import React, { useContext } from "react";
 import { TableContext } from "./TableContextProvider"; // Import the context
-import './DataTable.css'
+import "./DataTable.css";
 
 const DataTable = () => {
-  const { people, handleInputChange, createPerson } = useContext(TableContext); // Access the context
+  const { table, handleInputChange, addRow } = useContext(TableContext); // Access the context
+
+  const handleImageUpload = (index, file) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        handleInputChange(index, "image", reader.result); // Store the base64 image data
+      };
+      reader.readAsDataURL(file); // Convert image file to base64
+    }
+  };
 
   return (
     <div className="table-container">
       <table className="styled-table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Number</th>
+            <th>מס"ד</th>
+            <th>סוג חומר/אלמנט</th>
+            <th>תיאור הליקוי</th>
+            <th>המלצה</th>
+            <th>חומרה</th>
+            <th>תמונה</th>
           </tr>
         </thead>
         <tbody>
-          {people.map((person, index) => (
+          {table.map((row, index) => (
             <tr key={index}>
-              <td>{person.id}</td>
+              <td>{row.index}</td>
               <td>
                 <input
                   type="text"
-                  value={person.name}
+                  value={row.material}
                   onChange={(e) =>
-                    handleInputChange(index, "name", e.target.value)
+                    handleInputChange(index, "material", e.target.value)
                   }
                 />
               </td>
               <td>
                 <input
                   type="text"
-                  value={person.age}
+                  value={row.deficiency}
                   onChange={(e) =>
-                    handleInputChange(index, "age", e.target.value)
+                    handleInputChange(index, "deficiency", e.target.value)
                   }
                 />
               </td>
               <td>
                 <input
                   type="text"
-                  value={person.number}
+                  value={row.recommendation}
                   onChange={(e) =>
-                    handleInputChange(index, "number", e.target.value)
+                    handleInputChange(index, "recommendation", e.target.value)
                   }
                 />
+              </td>
+              <td>
+                <select
+                  name="severities"
+                  id="severities"
+                  value={row.severity}
+                  onChange={(e) =>
+                    handleInputChange(index, "severity", e.target.value)
+                  }
+                  className="form-select"
+                >
+                  <option value="">בחר רמת חומרה</option>
+                  <option value="1 - בהקדם וללא דיחוי">
+                    1 - בהקדם וללא דיחוי
+                  </option>
+                  <option value="2 - בהקדם">2 - בהקדם</option>
+                  <option value="3 - דחיפות נמוכה">3 - דחיפות נמוכה</option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(index, e.target.files[0])}
+                />
+                {row.image && (
+                  <img
+                    src={row.image}
+                    alt="Preview"
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      marginTop: "10px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button onClick={createPerson} className="addRow">
-        Add Row
-      </button>
+      <div className="add-row-container">
+        <button onClick={addRow} className="add-row">
+          +
+        </button>
+      </div>
     </div>
   );
 };
