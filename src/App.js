@@ -3,10 +3,10 @@ import "./App.css";
 import Header from "./Header";
 import ContactInfo from "./ContactInfo";
 import FirstPage from "./FirstPage";
-import SecondPage from "./SecondPage";
 import { TableContextProvider } from "./TableContextProvider";
-import ThirdPage from "./ThirdPage";
-import ForthPage from "./ForthPage";
+import SumTable from './SumTable';
+import ImagesUploader from './ImagesUploader';
+import DataTable from './DataTable';
 
 function App() {
   return (
@@ -15,9 +15,9 @@ function App() {
       <div className="classic-page">
         <FirstPage />
         <TableContextProvider>
-          <SecondPage />
-          <ThirdPage />
-          <ForthPage />
+          <SumTable/>
+          <ImagesUploader/>
+          <DataTable/>
         </TableContextProvider>
       </div>
       <ContactInfo />
