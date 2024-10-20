@@ -144,7 +144,7 @@ function PopUp({ setVisible, type }) {
               מהדחיפות הגבוהה אל הנמוכה){" "}
             </p>
             <img
-              src="/media/instructions.png"
+              src="media/instructions.png"
               className="instructions-img"
             />
             <Button type="primary" text="סגור" onClick={handleClose} />

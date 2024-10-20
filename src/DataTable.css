@@ -20,10 +20,11 @@
   /* Make the header sticky */
   top: 0;
   /* Stick the header at the top */
-  background-color: #f4f4f4;
+  background-color: #3f6cb1;
   z-index: 2;
   padding: 12px 15px;
   border: 1px solid #ddd;
+  color: white;
 }
 
 .styled-table tbody td {
@@ -60,7 +61,7 @@
   border-radius: 50%;
   border: none;
   background-color: white;
-  color: #48508a;
+  color: #3f6cb1;
   font-size: 2rem;
   display: flex;
   align-items: center;
