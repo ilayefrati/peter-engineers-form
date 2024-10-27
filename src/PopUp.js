@@ -1,8 +1,17 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import "./PopUp.css";
 import Button from "./Button";
+import {
+  Table,
+  TableRow,
+  TableCell,
+  Paragraph,
+  TextRun,
+  AlignmentType,
+  TextDirection,
+} from "docx";
 
-function PopUp({ setVisible, type }) {
+function PopUp({ setVisible, type, updateStatusDoc }) {
   const [localStatus, setLocalStatus] = useState(() => {
     try {
       const savedStatus = localStorage.getItem("status");
@@ -73,19 +82,85 @@ function PopUp({ setVisible, type }) {
     }
   });
 
+  // Generate the document table on initial load if there's existing status data
+  useEffect(() => {
+    const savedStatus = JSON.parse(localStorage.getItem("status"));
+    if (savedStatus && savedStatus.length > 0) {
+      updateStatusDoc([convertStatusToDocTable()]);
+    }
+  }, []); // Run only on initial mount
+
   function handleInputChange(index, criteria, value) {
-    const newStatus = [...localStatus]; // Create a new copy of the local status
-    newStatus[index][criteria].value = value; // Modify the specific field's value
-    setLocalStatus(newStatus); // Update the local state
+    const newStatus = [...localStatus];
+    newStatus[index][criteria].value = value;
+    setLocalStatus(newStatus);
+  }
+
+  function convertStatusToDocTable() {
+    const fontSize = 24;
+    const savedStatus = JSON.parse(localStorage.getItem("status")) || [];
+
+    return new Table({
+      visuallyRightToLeft: true,
+      alignment: AlignmentType.CENTER,
+      rows: [
+        new TableRow({
+          children: ["אישור לקוח", "בדק", "ערך", "תאריך", "מהדורה"].map(
+            (header) =>
+              new TableCell({
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: header,
+                        size: fontSize,
+                        language: "he-IL",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              })
+          ),
+        }),
+        ...savedStatus.map(
+          (row) =>
+            new TableRow({
+              children: Object.values(row).map(
+                (cell) =>
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: cell.value || " ",
+                            size: fontSize,
+                            language: "he-IL",
+                          }),
+                        ],
+                        alignment: AlignmentType.CENTER,
+                        textDirection: TextDirection.RIGHT_TO_LEFT,
+                        font: "David",
+                      }),
+                    ],
+                  })
+              ),
+            })
+        ),
+      ],
+    });
   }
 
   function handleSave() {
-    localStorage.setItem("status", JSON.stringify(localStatus)); // Save to localStorage
-    setVisible(false); // Close the popup after saving
+    localStorage.setItem("status", JSON.stringify(localStatus));
+    updateStatusDoc([convertStatusToDocTable()]); // Generate doc only when saving
+    setVisible(false);
   }
 
   function handleClose() {
-    setVisible(false); // Close the popup on cancel
+    setVisible(false);
   }
 
   return (
@@ -115,8 +190,8 @@ function PopUp({ setVisible, type }) {
                     {Object.keys(row).map((criteria, idx) => (
                       <td key={idx}>
                         <input
-                          type={row[criteria].type} // Dynamically set input type
-                          value={row[criteria].value} // Access the value for the input
+                          type={row[criteria].type}
+                          value={row[criteria].value}
                           onChange={(e) =>
                             handleInputChange(index, criteria, e.target.value)
                           }
@@ -140,11 +215,11 @@ function PopUp({ setVisible, type }) {
               <hr className="right_line" />
             </div>
             <p>
-              דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה: <br/> (מדורג
-              מהדחיפות הגבוהה אל הנמוכה){" "}
+              דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה: <br />{" "}
+              (מדורג מהדחיפות הגבוהה אל הנמוכה)
             </p>
             <img
-              src="media/instructions.png"
+              src={`${process.env.PUBLIC_URL}/media/instructions.png`}
               className="instructions-img"
             />
             <Button type="primary" text="סגור" onClick={handleClose} />

@@ -1,11 +1,9 @@
-import { React, useState } from "react";
+import React from "react";
 import "./TextAndInput.css";
 
-function TextAndInput({ label,placeholder,type }) {
-  const [data, setData] = useState("");
-
+function TextAndInput({ label, placeholder, type, value, setValue }) {
   function handleChange(e) {
-    setData(e.target.value);
+    setValue(e.target.value);
   }
 
   return (
@@ -15,7 +13,7 @@ function TextAndInput({ label,placeholder,type }) {
         placeholder={placeholder || "הכנס טקסט"}
         className="input-field"
         type={type || "text"}
-        value={data}
+        value={value}
         onChange={handleChange}
         required
       />

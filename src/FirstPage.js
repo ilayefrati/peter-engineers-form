@@ -4,7 +4,7 @@ import OpeningParagraph from "./OpeningParagraph";
 import Button from "./Button";
 import PopUp from "./PopUp";
 
-function FirstPage() {
+function FirstPage({ updateDoc,updateStatusDoc }) {
   const [visible, setVisible] = useState(false);
   const [type, setType] = useState();
   function onClickStatus() {
@@ -17,12 +17,12 @@ function FirstPage() {
   }
   return (
     <div className="first-page">
-      <OpeningParagraph />
+      <OpeningParagraph updateDoc={updateDoc}/>
       <div className="buttons-container">
         <Button type="primary" text='סטטוס דו"ח' onClick={onClickStatus} />
         <Button type="secondary" text="הוראות" onClick={onClickInstructions} />
       </div>
-      {visible && <PopUp setVisible={setVisible} type={type} />}
+      {visible && <PopUp setVisible={setVisible} type={type} updateStatusDoc={updateStatusDoc}/>}
     </div>
   );
 }

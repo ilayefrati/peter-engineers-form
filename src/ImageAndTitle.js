@@ -1,11 +1,12 @@
 import React from "react";
-import './ImageAndTitle.css';
-import TextAndInput from './TextAndInput';
+import "./ImageAndTitle.css";
+import TextAndInput from "./TextAndInput";
 
-function ImageAndTitle({ src }) {
+function ImageAndTitle({ src, title, setTitle }) {
   return (
     <div className="image-and-title">
-      <TextAndInput />
+      {/* Pass the title and setTitle to TextAndInput */}
+      <TextAndInput value={title} setValue={setTitle} />
       <img src={src} alt="uploaded" />
     </div>
   );

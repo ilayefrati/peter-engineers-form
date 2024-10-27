@@ -42,6 +42,7 @@
     background-color: #3f6cb1;
     padding: 12px 15px;
     border: 1px solid #ddd;
+    color: white;
 }
 
 .status-table tbody td {
