@@ -1,6 +1,6 @@
 .input-container {
     position: relative;
-    margin: 20px;
+    margin: 20px 5px;
     display: flex;
     flex-direction: row-reverse;
     width: fit-content;
@@ -12,7 +12,6 @@
 /* Input field */
 .input-field {
     display: block;
-    font-size: 16px;
     border: none;
     border-bottom: 2px solid #ccc;
     outline: none;

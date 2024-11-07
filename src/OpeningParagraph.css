@@ -27,7 +27,6 @@
 .form-select {
     width: fit-content;
     padding: 10px;
-    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
@@ -51,8 +50,13 @@
 }
 
 .text-paragraph-bottom{
-    text-align: center;
+    text-align: right;
     line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 .text-paragraph-bottom p{
@@ -79,13 +83,13 @@
         max-width: 100%;
     }
 
-    .form-label {
+    /* .form-label {
         font-size: 1rem;
-    }
+    } */
 
     .form-select,
     input[type="text"] {
-        font-size: 0.9rem;
+        /* font-size: 0.9rem; */
         padding: 8px;
     }
 }

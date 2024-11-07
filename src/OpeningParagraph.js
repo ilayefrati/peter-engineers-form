@@ -90,7 +90,9 @@ function OpeningParagraph({ updateDoc }) {
 
         children: [
           new TextRun({
-            text: `הנדון: דו"ח סקר ויזואלי לאלמנטי קונסטרוקציה ${meterial || "_________"}`,
+            text: `הנדון: דו"ח סקר ויזואלי לאלמנטי קונסטרוקציה ${
+              meterial || "_________"
+            }`,
             font: "David",
             size: 32,
             bold: true,
@@ -128,9 +130,7 @@ function OpeningParagraph({ updateDoc }) {
 
         children: [
           new TextRun({
-            text: `בתאריך ${
-              surveyDate || "_________"
-            } נערך סיור ב - ${
+            text: `בתאריך ${surveyDate || "_________"} נערך סיור ב - ${
               locationType === "אחר" && customLocationType
                 ? customLocationType
                 : locationType || "_________"
@@ -174,9 +174,22 @@ function OpeningParagraph({ updateDoc }) {
   return (
     <>
       <div className="initial-info-container">
-        <TextAndInput label="לכבוד:" value={recipient} setValue={setRecipient} />
-        <TextAndInput label="תאריך:" type="date" value={date} setValue={setDate} />
-        <TextAndInput label="לידי:" value={contactPerson} setValue={setContactPerson} />
+        <TextAndInput
+          label="לכבוד:"
+          value={recipient}
+          setValue={setRecipient}
+        />
+        <TextAndInput
+          label="תאריך:"
+          type="date"
+          value={date}
+          setValue={setDate}
+        />
+        <TextAndInput
+          label="לידי:"
+          value={contactPerson}
+          setValue={setContactPerson}
+        />
         <TextAndInput label="פרוייקט:" value={project} setValue={setProject} />
       </div>
       <div className="text-paragraph-top">
@@ -243,18 +256,27 @@ function OpeningParagraph({ updateDoc }) {
       <div className="text-paragraph-bottom">
         <p>
           בתאריך{" "}
-          <TextAndInput type="date" value={surveyDate} setValue={setSurveyDate} /> נערך סיור ב -{" "}
+          <TextAndInput
+            type="date"
+            value={surveyDate}
+            setValue={setSurveyDate}
+          />{" "}
+          נערך סיור ב -{" "}
           {locationType === "אחר" && customLocationType
             ? customLocationType
             : locationType || "_________"}{" "}
           הנ"ל ע"י מהנדס{" "}
-          <TextAndInput value={engineer} setValue={setEngineer} />
+          <TextAndInput value={engineer} setValue={setEngineer} />.
+        </p>
+        <p>
           מטרת הסקר הינה בדיקה וויזואלית לקונס' {meterial || "_________"} ב -{" "}
           {locationType === "אחר" && customLocationType
             ? customLocationType
             : locationType || "_________"}{" "}
           {location || "_________"} ומתן חוות דעת למצב של{" "}
-          <TextAndInput value={opinion} setValue={setOpinion} />
+          <TextAndInput value={opinion} setValue={setOpinion} />.
+        </p>
+        <p>
           הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים
           (רעידת אדמה, פעולות חריגות/עומסים חריגים במבנה וכד').
         </p>

@@ -12,14 +12,15 @@ body {
   font-size: 1rem;
   margin: 0;
   padding: 0;
-  font-family: 'Aharoni CLM', sans-serif;
+  font-family: "David Libre", serif;
   overflow-x: hidden;
 }
 
 h1 {
   font-size: 6rem;
   margin: 0;
-  font-family: 'Aharoni CLM Bold', sans-serif;
+  font-family: "David Libre", serif;
+  font-weight: 700;
   color:#333;
   direction: rtl;
 }
@@ -28,14 +29,16 @@ h2 {
   font-size: 3rem;
   margin: 0;
   direction: rtl;
-  font-family: 'Aharoni CLM Bold', sans-serif;
+  font-family: "David Libre", serif;
+  font-weight: 700;
   color:#333;
 }
 
 h3 {
   font-size: 2rem;
   margin: 0;
-  font-family: 'Aharoni CLM Bold', sans-serif;
+  font-family: "David Libre", serif;
+  font-weight: 700;
   color:#333;
   direction: rtl;
 }
@@ -45,7 +48,8 @@ h4 {
   font-size: 1.3rem;
   color:#333;  
   direction: rtl;
-  font-family: 'Aharoni CLM Bold', sans-serif;
+  font-family: "David Libre", serif;
+  font-weight: 700;
 
 }
 
@@ -53,14 +57,14 @@ p {
   font-size: 1.5rem;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  font-family: 'Aharoni CLM', sans-serif;
+  font-family: "David Libre", serif;
   color:#333;
   direction: rtl;
 }
 
 a {
   font-size: 1.8rem;
-  font-family: 'Aharoni CLM', sans-serif;
+  font-family: "David Libre", serif;
   color:#333;
   direction: rtl;
   text-decoration: none;
@@ -69,7 +73,7 @@ a {
 
 label{
   font-size: 1.5rem;
-  font-family: 'Aharoni CLM', sans-serif;
+  font-family: "David Libre", serif;
   color:#333;
   direction: rtl;
   white-space: nowrap;
@@ -78,16 +82,31 @@ label{
 select{
   font-size: 1.5rem;
   direction: rtl;
-  font-family: 'Aharoni CLM', sans-serif;
+  font-family: "David Libre", serif;
   color:#333;
 }
 
 input{
   direction: rtl;
+  font-family: "David Libre", serif;
+  font-size: 1.5rem;
+
 }
 
 textarea{
   direction: rtl;
+  font-family: "David Libre", serif;
+  font-size: 1.5rem;
+
+}
+
+button{
+  font-family: "David Libre", serif;
+  font-size: 1.2rem;
+}
+
+table th{
+  font-size: 1.5rem;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
@@ -136,6 +155,22 @@ textarea{
 
   p{
       font-size: 2rem;
+  }
+
+  input{
+    font-size: 2rem;
+  }
+
+  label{
+    font-size: 2rem;
+  }
+
+  select{
+    font-size: 2rem;
+  }
+
+  textarea{
+    font-size: 2rem;
   }
 
 }

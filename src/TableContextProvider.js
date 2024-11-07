@@ -7,7 +7,7 @@ import {
   TextRun,
   ImageRun,
   AlignmentType,
-  TextDirection, // Use TextDirection for RTL
+  TextDirection,
 } from "docx";
 
 // Create a context to store the table data
@@ -21,34 +21,78 @@ export const TableContextProvider = ({
 }) => {
   const [table, setTable] = useState([]);
 
-  // Function to handle input changes for a row, including image upload
-  const handleInputChange = (index, field, value) => {
-      const newTable = [...table];
+  // Function to handle input changes for a row, including image and deficiency
+  const handleInputChange = (
+    index,
+    field,
+    value,
+    deficiencyIndex = null,
+    recommendationIndex = null
+  ) => {
+    const newTable = [...table];
+
+    if (field === "deficiencies") {
+      if (!newTable[index][field][deficiencyIndex]) {
+        newTable[index][field][deficiencyIndex] = {
+          value: "",
+          customValue: "",
+        };
+      }
+      newTable[index][field][deficiencyIndex].value = value;
+    } else if (field === "deficiencyOther") {
+      newTable[index].deficiencies[deficiencyIndex].customValue = value;
+    } else if (field === "recommendations") {
+      if (!newTable[index][field][recommendationIndex]) {
+        newTable[index][field][recommendationIndex] = {
+          value: "",
+          customValue: "",
+        };
+      }
+      newTable[index][field][recommendationIndex].value = value;
+    } else if (field === "recommendationOther") {
+      newTable[index].recommendations[recommendationIndex].customValue = value;
+    } else {
       newTable[index][field] = value;
-      setTable(newTable);
     }
+    setTable(newTable);
+  };
+
+  // Function to add a new deficiency
+  const addDeficiency = (index) => {
+    const newTable = [...table];
+    newTable[index].deficiencies.push({ value: "", customValue: "" });
+    setTable(newTable);
+  };
+
+  const addRecommendation = (index) => {
+    const newTable = [...table];
+    newTable[index].recommendations.push({ value: "", customValue: "" });
+    setTable(newTable);
+  };
+
 
   // Function to create a new row
   const addRow = () => {
     setTable([
       ...table,
       {
-        index: table.length + 1, // Automatically set the index for "מס"ד"
+        index: table.length + 1,
         material: "",
-        deficiency: "",
-        recommendation: "",
+        materialOther: "",
+        element: "",
+        elementOther: "",
+        deficiencies: [{ value: "", customValue: "" }], // Initialize with object structure
+        recommendations: [{ value: "", customValue: "" }],
         severity: "",
-        image: "", // Empty image initially
+        image: "",
       },
     ]);
   };
 
   // UseEffect to generate docx table content for both DataTable and SumTable
   useEffect(() => {
-    // Define font size for table content
-    const fontSize = 24; // 24 half-points is equivalent to 12pt
+    const fontSize = 24;
 
-    // DataTable: Define table rows for the full DataTable
     const dataTableRows = table.map((row) => {
       const imageCell = row.image
         ? new TableCell({
@@ -56,7 +100,7 @@ export const TableContextProvider = ({
               new Paragraph({
                 children: [
                   new ImageRun({
-                    data: row.image.split(",")[1], // Extract base64 data from the string
+                    data: row.image.split(",")[1],
                     transformation: {
                       width: 100,
                       height: 100,
@@ -69,9 +113,15 @@ export const TableContextProvider = ({
         : new TableCell({
             children: [
               new Paragraph({
-                children: [new TextRun({ text: "No Image", size: fontSize,language: "he-IL" })],
+                children: [
+                  new TextRun({
+                    text: "No Image",
+                    size: fontSize,
+                    language: "he-IL",
+                  }),
+                ],
                 alignment: AlignmentType.CENTER,
-                font: "David"
+                font: "David",
               }),
             ],
           });
@@ -81,54 +131,106 @@ export const TableContextProvider = ({
           new TableCell({
             children: [
               new Paragraph({
-                children: [new TextRun({ text: String(row.index), size: fontSize,language: "he-IL" })],
+                children: [
+                  new TextRun({
+                    text: String(row.index),
+                    size: fontSize,
+                    language: "he-IL",
+                  }),
+                ],
                 alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
+                textDirection: TextDirection.RIGHT_TO_LEFT,
+                font: "David",
               }),
             ],
           }),
           new TableCell({
             children: [
               new Paragraph({
-                children: [new TextRun({ text: row.material, size: fontSize ,language: "he-IL"})],
+                children: [
+                  new TextRun({
+                    text:
+                      row.material === "אחר" ? row.materialOther : row.material,
+                    size: fontSize,
+                    language: "he-IL",
+                  }),
+                ],
                 alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
+                textDirection: TextDirection.RIGHT_TO_LEFT,
+                font: "David",
               }),
             ],
           }),
           new TableCell({
             children: [
               new Paragraph({
-                children: [new TextRun({ text: row.deficiency, size: fontSize ,language: "he-IL"})],
+                children: [
+                  new TextRun({
+                    text:
+                      row.element === "אחר" ? row.elementOther : row.element,
+                    size: fontSize,
+                    language: "he-IL",
+                  }),
+                ],
                 alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
+                textDirection: TextDirection.RIGHT_TO_LEFT,
+                font: "David",
               }),
             ],
           }),
           new TableCell({
-            children: [
+            children: row.deficiencies.map(
+              (deficiency) =>
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text:
+                        deficiency.value === "אחר"
+                          ? deficiency.customValue
+                          : deficiency.value,
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
+                })
+            ),
+          }),
+          new TableCell({
+            children: row.recommendations.map((recommendation) =>
               new Paragraph({
-                children: [new TextRun({ text: row.recommendation, size: fontSize ,language: "he-IL"})],
+                children: [
+                  new TextRun({
+                    text: recommendation.value === "אחר" ? recommendation.customValue : recommendation.value,
+                    size: fontSize,
+                    language: "he-IL",
+                  }),
+                ],
                 alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
-              }),
-            ],
+                textDirection: TextDirection.RIGHT_TO_LEFT,
+                font: "David",
+              })
+            ),
           }),
           new TableCell({
             children: [
               new Paragraph({
-                children: [new TextRun({ text: row.severity, size: fontSize,language: "he-IL"})],
+                children: [
+                  new TextRun({
+                    text: row.severity,
+                    size: fontSize,
+                    language: "he-IL",
+                  }),
+                ],
                 alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
+                textDirection: TextDirection.RIGHT_TO_LEFT,
+                font: "David",
               }),
             ],
           }),
-          imageCell, // Add image column
+          imageCell,
         ],
       });
     });
@@ -143,60 +245,112 @@ export const TableContextProvider = ({
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "מס\"ד", size: fontSize ,language: "he-IL"})],
+                  children: [
+                    new TextRun({
+                      text: 'מס"ד',
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "סוג חומר/אלמנט", size: fontSize,language: "he-IL" })],
+                  children: [
+                    new TextRun({
+                      text: "חומר",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "תיאור הליקוי", size: fontSize ,language: "he-IL"})],
+                  children: [
+                    new TextRun({
+                      text: "אלמנט",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "המלצה", size: fontSize,language: "he-IL" })],
+                  children: [
+                    new TextRun({
+                      text: "תיאור הליקוי",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "חומרה", size: fontSize ,language: "he-IL"})],
+                  children: [
+                    new TextRun({
+                      text: "המלצה",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "תמונה", size: fontSize,language: "he-IL" })],
+                  children: [
+                    new TextRun({
+                      text: "חומרה",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
+                }),
+              ],
+            }),
+            new TableCell({
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: "תמונה",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
@@ -211,32 +365,45 @@ export const TableContextProvider = ({
     updateTableDoc([dataTableElement]);
 
     // SumTable: Define table rows for SumTable (only index and severity)
-    const sumTableRows = table.map((row) => (
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [
-              new Paragraph({
-                children: [new TextRun({ text: String(row.index), size: fontSize,language: "he-IL" })],
-                alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
-              }),
-            ],
-          }),
-          new TableCell({
-            children: [
-              new Paragraph({
-                children: [new TextRun({ text: row.severity, size: fontSize,language: "he-IL" })],
-                alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                font: "David"
-              }),
-            ],
-          }),
-        ],
-      })
-    ));
+    const sumTableRows = table.map(
+      (row) =>
+        new TableRow({
+          children: [
+            new TableCell({
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: String(row.index),
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
+                }),
+              ],
+            }),
+            new TableCell({
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: row.severity,
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
+                }),
+              ],
+            }),
+          ],
+        })
+    );
 
     // SumTable: Create the actual SumTable for the docx file
     const sumTableElement = new Table({
@@ -248,20 +415,32 @@ export const TableContextProvider = ({
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "מס\"ד", size: fontSize,language: "he-IL" })],
+                  children: [
+                    new TextRun({
+                      text: 'מס"ד',
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
             new TableCell({
               children: [
                 new Paragraph({
-                  children: [new TextRun({ text: "חומרה", size: fontSize,language: "he-IL" })],
+                  children: [
+                    new TextRun({
+                      text: "חומרה",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
                   alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT, // RTL
-                  font: "David"
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
                 }),
               ],
             }),
@@ -274,13 +453,13 @@ export const TableContextProvider = ({
 
     // Pass the SumTable to App
     updateSumTableDoc([sumTableElement]);
-
   }, [table, updateTableDoc, updateSumTableDoc]);
 
   return (
-    <TableContext.Provider value={{ table, handleInputChange, addRow }}>
+    <TableContext.Provider
+      value={{ table, setTable, addRow, handleInputChange, addDeficiency, addRecommendation }}
+    >
       {children}
     </TableContext.Provider>
   );
-}
-
+};

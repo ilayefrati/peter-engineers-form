@@ -1,6 +1,9 @@
 import { React, useState, useEffect } from "react";
 import "./PopUp.css";
 import Button from "./Button";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
+import { Hebrew } from "flatpickr/dist/l10n/he.js"; // Import Hebrew locale
 import {
   Table,
   TableRow,
@@ -174,34 +177,71 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
               <h2 className="title">סטטוס דו"ח</h2>
               <hr className="right_line" />
             </div>
-            <table className="status-table">
-              <thead>
-                <tr>
-                  <th>אישור לקוח</th>
-                  <th>בדק</th>
-                  <th>ערך</th>
-                  <th>תאריך</th>
-                  <th>מהדורה</th>
-                </tr>
-              </thead>
-              <tbody>
-                {localStatus.map((row, index) => (
-                  <tr key={index}>
-                    {Object.keys(row).map((criteria, idx) => (
-                      <td key={idx}>
-                        <input
-                          type={row[criteria].type}
-                          value={row[criteria].value}
-                          onChange={(e) =>
-                            handleInputChange(index, criteria, e.target.value)
-                          }
-                        />
-                      </td>
-                    ))}
+            <div className="status-table-container">
+              <table className="status-table">
+                <thead>
+                  <tr>
+                    <th>אישור לקוח</th>
+                    <th>בדק</th>
+                    <th>ערך</th>
+                    <th>תאריך</th>
+                    <th>מהדורה</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {localStatus.map((row, index) => (
+                    <tr key={index}>
+                      {Object.keys(row).map((criteria, idx) => (
+                        <td key={idx}>
+                          {row[criteria].type === "date" ? (
+                            <input
+                              type="text" // flatpickr works with text input
+                              placeholder="dd/mm/yyyy"
+                              value={row[criteria].value}
+                              ref={(el) => {
+                                if (el) {
+                                  flatpickr(el, {
+                                    locale: Hebrew,
+                                    dateFormat: "d/m/Y",
+                                    onChange: (selectedDates) => {
+                                      const formattedDate =
+                                        selectedDates[0].toLocaleDateString(
+                                          "he-IL"
+                                        );
+                                      handleInputChange(
+                                        index,
+                                        criteria,
+                                        formattedDate
+                                      );
+                                    },
+                                  });
+                                }
+                              }}
+                              onChange={() => {}} // Prevent default onChange
+                              required
+                            />
+                          ) : (
+                            <input
+                              type={row[criteria].type}
+                              value={row[criteria].value}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  index,
+                                  criteria,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
             <div className="buttons-container">
               <Button type="primary" text="שמור" onClick={handleSave} />
               <Button type="secondary" text="בטל" onClick={handleClose} />

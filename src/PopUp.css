@@ -1,4 +1,4 @@
-/* Add a dark overlay behind the popup */
+/* Dark overlay behind the popup */
 .overlay {
     position: fixed; /* Fixed position to cover the whole viewport */
     top: 0;
@@ -7,10 +7,10 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
     z-index: 999; /* Make sure it's on top of everything */
-  }
+}
   
-  /* Pop-up container styling */
-  .pop-up-container {
+/* Pop-up container styling */
+.pop-up-container {
     position: fixed; /* Fixed position to stay in the middle of the viewport */
     top: 50%;
     left: 50%;
@@ -23,19 +23,30 @@
     gap: 30px 0px;
     padding: 15px;
     background-color: white;
-    height: fit-content;
-    width: fit-content;
     border: 2px solid #333;
     text-align: center;
-  }
-  
+    max-width: 90vw; /* Ensure it fits smaller screens */
+    max-height: 90vh; /* Limit height for smaller screens */
+    overflow-y: auto; /* Add vertical scrolling if content exceeds height */
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pop-up-container {
+        padding: 10px;
+    }
+    .instructions-img {
+        width: 100%; /* Make image fit within popup on small screens */
+    }
+}
 
 .status-table {
     width: 100%;
     border-collapse: collapse;
-    /* Collapse borders */
     text-align: center;
     direction: rtl;
+    overflow-x: auto; /* Enable horizontal scroll if needed */
 }
 
 .status-table thead th {
@@ -46,11 +57,15 @@
 }
 
 .status-table tbody td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    /* Add lines between rows and columns */
+    border: 1px solid #ddd; /* Add lines between rows and columns */
 }
 
+.status-table tbody td input {
+    border: none;
+    padding: 12px 15px;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
 
 .title_and_lines {
     display: flex;
@@ -65,24 +80,30 @@
     color: #333;
 }
 
-
-.left_line {
+.left_line, .right_line {
     width: 15%;
     height: 4px;
     background-color: #333;
     margin: 0;
 }
 
-.right_line {
-    width: 15%;
-    height: 4px;
-    background-color: #333;
-    margin: 0;
-
-}
-
-.instructions-img{
+.instructions-img {
     width: 400px;
     height: auto;
     object-fit: fill;
+    max-width: 100%; /* Responsive width to fit container */
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+    .status-table thead th,
+    .status-table tbody td {
+        padding: 8px; /* Reduce padding for smaller screens */
+        font-size: 12px; /* Smaller font for smaller screens */
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Horizontal scroll if table exceeds container width */
 }
