@@ -73,23 +73,34 @@ export const TableContextProvider = ({
 
 
   // Function to create a new row
-  const addRow = () => {
-    setTable([
-      ...table,
+  const addRow = (tableBodyRef) => {
+    // Add a new row to the table state
+    setTable((prevTable) => [
+      ...prevTable,
       {
-        index: table.length + 1,
+        index: prevTable.length + 1,
         material: "",
         materialOther: "",
         element: "",
         elementOther: "",
-        deficiencies: [{ value: "", customValue: "" }], // Initialize with object structure
+        deficiencies: [{ value: "", customValue: "" }],
         recommendations: [{ value: "", customValue: "" }],
         severity: "",
         image: "",
       },
     ]);
+  
+    // Use setTimeout to allow React to update the DOM
+    setTimeout(() => {
+      if (tableBodyRef.current) {
+        const newRow = tableBodyRef.current.lastElementChild;
+        if (newRow) {
+          newRow.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 0); // Delay of 0ms to ensure DOM update
   };
-
+  
   // UseEffect to generate docx table content for both DataTable and SumTable
   useEffect(() => {
     const fontSize = 24;

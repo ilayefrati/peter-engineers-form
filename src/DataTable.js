@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { TableContext } from "./TableContextProvider";
 import "./DataTable.css";
 
 const DataTable = () => {
   const { table, handleInputChange, addRow, addDeficiency, addRecommendation } =
     useContext(TableContext);
+  const tableBodyRef = useRef(null);
 
   const handleImageUpload = (index, file) => {
     if (file) {
@@ -31,7 +32,7 @@ const DataTable = () => {
               <th>תמונה</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody ref={tableBodyRef}>
             {table.map((row, index) => (
               <tr key={index}>
                 <td>{row.index}</td>
@@ -267,7 +268,7 @@ const DataTable = () => {
         </table>
       </div>
       <div className="add-row-container">
-        <button onClick={addRow} className="add-row">
+        <button onClick={() => addRow(tableBodyRef)} className="add-row">
           +
         </button>
       </div>

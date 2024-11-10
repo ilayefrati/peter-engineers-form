@@ -12,6 +12,7 @@
   overflow-y: auto;
   overflow-x: auto;
   border: 1px solid #ddd;
+  direction: rtl;
 }
 
 .styled-table {
