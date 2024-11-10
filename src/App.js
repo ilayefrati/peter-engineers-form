@@ -83,9 +83,10 @@ function App() {
     });
 
     Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, "example.docx");
+      const file = new Blob([blob], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+      saveAs(file, "example.docx");
     });
-  };
+  }
 
   useEffect(() => {
     const savedStatus = JSON.parse(localStorage.getItem("status"));
