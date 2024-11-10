@@ -12,6 +12,7 @@ import {
   TextRun,
   AlignmentType,
   TextDirection,
+  WidthType,
 } from "docx";
 
 function PopUp({ setVisible, type, updateStatusDoc }) {
@@ -106,6 +107,12 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
     return new Table({
       visuallyRightToLeft: true,
       alignment: AlignmentType.CENTER,
+      width: { 
+        size: 100, 
+        type: WidthType.AUTO, 
+    }, 
+    columnWidths: [1000, 1000, 1000], 
+  
       rows: [
         new TableRow({
           children: ["אישור לקוח", "בדק", "ערך", "תאריך", "מהדורה"].map(

@@ -8,6 +8,7 @@ import {
   ImageRun,
   AlignmentType,
   TextDirection,
+  WidthType,
 } from "docx";
 
 // Create a context to store the table data
@@ -238,6 +239,12 @@ export const TableContextProvider = ({
     // DataTable: Create the actual table for the docx file
     const dataTableElement = new Table({
       visuallyRightToLeft: true,
+      width: { 
+        size: 100, 
+        type: WidthType.AUTO, 
+    }, 
+    columnWidths: [1000, 1000, 1000], 
+  
       rows: [
         // Add table header
         new TableRow({
@@ -408,6 +415,12 @@ export const TableContextProvider = ({
     // SumTable: Create the actual SumTable for the docx file
     const sumTableElement = new Table({
       visuallyRightToLeft: true,
+      width: { 
+        size: 100, 
+        type: WidthType.AUTO, 
+    }, 
+    columnWidths: [1000, 1000, 1000], 
+  
       rows: [
         // Add table header
         new TableRow({
