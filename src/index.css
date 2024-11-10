@@ -90,7 +90,6 @@ input{
   direction: rtl;
   font-family: "David Libre", serif;
   font-size: 1.5rem;
-
 }
 
 textarea{
@@ -187,4 +186,22 @@ table th{
   p{
       font-size: 2rem;
   }
+
+  input{
+    font-size: 2rem;
+  }
+
+  label{
+    font-size: 2rem;
+  }
+
+  select{
+    font-size: 2rem;
+  }
+
+  textarea{
+    font-size: 2rem;
+  }
 }
+
+/* this is the media query for peter-engineers tablets */

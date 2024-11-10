@@ -1,18 +1,26 @@
-.initial-info-container{
+.initial-info-container {
     width: fit-content;
     height: fit-content;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 40px 60px;
+    gap: 20px 100px;
     align-items: center;
     justify-content: center;
+}
+
+.half-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px 0px;
 }
 
 .form-group {
     display: flex;
     flex-direction: row-reverse;
-    gap: 30px;
+    gap: 10px;
     align-items: center;
 }
 
@@ -20,8 +28,8 @@
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
-    font-size: 1.2rem;
     color: #333;
+    font-size: 2rem;
 }
 
 .form-select {
@@ -38,18 +46,14 @@
     border-color: #007bff;
 }
 
-.text-paragraph-top{
+.text-paragraph-top {
     display: flex;
     flex-direction: column;
     /* align-items: center; */
     justify-content: center;
 }
 
-.text-paragraph-top label{
-    font-size: 2rem;
-}
-
-.text-paragraph-bottom{
+.text-paragraph-bottom {
     text-align: right;
     line-height: 1.5;
     display: flex;
@@ -59,7 +63,7 @@
     flex-wrap: wrap;
 }
 
-.text-paragraph-bottom p{
+.text-paragraph-bottom p {
     display: ruby;
 }
 
@@ -77,19 +81,8 @@
     border-color: #007bff;
   } */
 
-@media (max-width: 768px) {
-    .text-paragraph {
-        padding: 15px;
-        max-width: 100%;
-    }
-
-    /* .form-label {
-        font-size: 1rem;
-    } */
-
-    .form-select,
-    input[type="text"] {
-        /* font-size: 0.9rem; */
-        padding: 8px;
+@media (min-width: 769px) and (max-width: 1024px) {
+    .form-label{
+        font-size: 2.5rem;
     }
 }

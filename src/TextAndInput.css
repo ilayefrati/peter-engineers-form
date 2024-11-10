@@ -1,7 +1,7 @@
 .input-container {
     position: relative;
     margin: 20px 5px;
-    display: flex;
+    display: inline-flex;
     flex-direction: row-reverse;
     width: fit-content;
     gap:0 15px;
@@ -17,6 +17,8 @@
     outline: none;
     background-color: transparent;
     transition: border-bottom 0.2s ease-in-out;
+    width: 150px;
+    /* custom width for the line inputs */
 }
 
 .input-field:focus {

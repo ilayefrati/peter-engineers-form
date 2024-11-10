@@ -174,23 +174,31 @@ function OpeningParagraph({ updateDoc }) {
   return (
     <>
       <div className="initial-info-container">
-        <TextAndInput
-          label="לכבוד:"
-          value={recipient}
-          setValue={setRecipient}
-        />
-        <TextAndInput
-          label="תאריך:"
-          type="date"
-          value={date}
-          setValue={setDate}
-        />
-        <TextAndInput
-          label="לידי:"
-          value={contactPerson}
-          setValue={setContactPerson}
-        />
-        <TextAndInput label="פרוייקט:" value={project} setValue={setProject} />
+        <div className="half-cont">
+          <TextAndInput
+            label="תאריך:"
+            type="date"
+            value={date}
+            setValue={setDate}
+          />
+          <TextAndInput
+            label="פרוייקט:"
+            value={project}
+            setValue={setProject}
+          />
+        </div>
+        <div className="half-cont">
+          <TextAndInput
+            label="לכבוד:"
+            value={recipient}
+            setValue={setRecipient}
+          />
+          <TextAndInput
+            label="לידי:"
+            value={contactPerson}
+            setValue={setContactPerson}
+          />
+        </div>
       </div>
       <div className="text-paragraph-top">
         <div className="form-group">
