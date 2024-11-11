@@ -3,22 +3,17 @@
   "name": "Peter Engineers Form",
   "icons": [
     {
-      "src": "./media/peter-engineers-logo.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "./media/peter-engineers-logo.png",
+      "src": "./media/peter-engineers-icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "./media/peter-engineers-logo.png",
+      "src": "./media/peter-engineers-icon-384.png",
       "type": "image/png",
       "sizes": "384x384"
     },
     {
-      "src": "./media/peter-engineers-logo.png",
+      "src": "./media/peter-engineers-icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
