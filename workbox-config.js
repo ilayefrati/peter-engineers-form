@@ -3,7 +3,7 @@ module.exports = {
     globPatterns: [
       '**/*.{html,js,css,png,jpg,jpeg,svg,ico,woff,woff2,eot,ttf,otf}'
     ],
-    swDest: 'build/service-worker.js',
+    swDest: 'service-worker.js',
     clientsClaim: true,
     skipWaiting: true,
     runtimeCaching: [
