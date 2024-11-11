@@ -5,6 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+if (process.env.NODE_ENV === 'production') {
+  // Register the service worker to enable offline functionality
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      navigator.serviceWorker.register(swUrl).then(
+        (registration) => {
+          console.log('Service Worker registered: ', registration);
+        },
+        (error) => {
+          console.error('Service Worker registration failed: ', error);
+        }
+      );
+    });
+  }
+}
 root.render(
   <React.StrictMode>
     <App />
