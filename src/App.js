@@ -20,6 +20,7 @@ import {
   Table,
   TableRow,
   TableCell,
+  WidthType,
 } from "docx";
 
 function App() {
@@ -101,6 +102,11 @@ function App() {
     return new Table({
       visuallyRightToLeft: true,
       alignment: AlignmentType.CENTER,
+      width: { 
+        size: 100, 
+        type: WidthType.AUTO, 
+    }, 
+    columnWidths: [1000, 1000, 1000], 
       rows: [
         new TableRow({
           children: ["אישור לקוח", "בדק", "ערך", "תאריך", "מהדורה"].map(
