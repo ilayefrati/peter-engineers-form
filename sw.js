@@ -10,7 +10,6 @@ self.addEventListener('message', (event) => {
 
 // Precache assets and handle routing
 workbox.precaching.precacheAndRoute([
-  { url: 'build/asset-manifest.json', revision: '7a9667050a5c5ebc1bbf444b130b763a' },
   { url: 'build/favicon.ico', revision: 'c92b85a5b907c70211f4ec25e29a8c4a' },
   { url: 'build/index.html', revision: '32c23cd05bf73054227864bd40870891' },
   { url: 'build/logo192.png', revision: '33dbdd0177549353eeeb785d02c294af' },
