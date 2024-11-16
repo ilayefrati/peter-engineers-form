@@ -1,7 +1,7 @@
 import React from "react";
 import "./Header.css";
 
-function Header() {
+function FormHeader() {
   return (
     <div className="header">
       <img src={`${process.env.PUBLIC_URL}/media/peter-engineers-logo.png`} />
@@ -9,4 +9,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default FormHeader;

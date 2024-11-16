@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ImagesUploader.css"; // Importing CSS for styling
 import ImageAndTitle from "./ImageAndTitle";
 import Button from "./Button";
-import { Paragraph, TextRun, ImageRun } from "docx"; // Import docx components
+import { Paragraph, TextRun, ImageRun, AlignmentType } from "docx"; // Import docx components
 
 function ImagesUploader({ updateImagesUploaderDoc }) {
   const [images, setImages] = useState([]);
@@ -63,6 +63,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
             const imageBuffer = await readFileAsArrayBuffer(image.rawFile); // Read image as ArrayBuffer
             return [
               new Paragraph({
+                alignment: AlignmentType.CENTER,
                 children: [
                   new TextRun({ text: image.title || "Untitled Image", bold: true, underline:true, language: "he-IL"}), // Title as bold text
                 ],
@@ -70,6 +71,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
               }),
               new Paragraph({ text: "", spacing: { after: 100 } }),
               new Paragraph({
+                alignment: AlignmentType.CENTER,
                 children: [
                   new ImageRun({
                     data: imageBuffer, // Use the ArrayBuffer for the image
@@ -77,6 +79,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
                   }),
                 ],
               }),
+              new Paragraph({ text: "", spacing: { after: 200 } }),
             ];
           })
         );

@@ -103,6 +103,12 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
   function convertStatusToDocTable() {
     const fontSize = 24;
     const savedStatus = JSON.parse(localStorage.getItem("status")) || [];
+    const cellPadding = {
+      top: 100,   // Top padding in twips (1/20th of a point)
+      bottom: 100, // Bottom padding in twips
+      left: 100,  // Left padding in twips
+      right: 100, // Right padding in twips
+    };
 
     return new Table({
       visuallyRightToLeft: true,
@@ -118,6 +124,7 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
           children: ["אישור לקוח", "בדק", "ערך", "תאריך", "מהדורה"].map(
             (header) =>
               new TableCell({
+                margins: cellPadding, // Apply padding to the header cells
                 children: [
                   new Paragraph({
                     children: [
@@ -141,6 +148,7 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
               children: Object.values(row).map(
                 (cell) =>
                   new TableCell({
+                    margins: cellPadding, // Apply padding to the header cells
                     children: [
                       new Paragraph({
                         children: [

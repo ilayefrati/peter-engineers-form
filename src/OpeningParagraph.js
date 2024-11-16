@@ -34,7 +34,6 @@ function OpeningParagraph({ updateDoc }) {
           }),
         ],
       }),
-      new Paragraph({ text: "", spacing: { after: 200 } }), // Space after the first paragraph
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
@@ -50,7 +49,6 @@ function OpeningParagraph({ updateDoc }) {
           }),
         ],
       }),
-      new Paragraph({ text: "", spacing: { after: 200 } }), // Space after the first paragraph
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
@@ -66,7 +64,6 @@ function OpeningParagraph({ updateDoc }) {
           }),
         ],
       }),
-      new Paragraph({ text: "", spacing: { after: 200 } }), // Space after the first paragraph
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
@@ -82,7 +79,7 @@ function OpeningParagraph({ updateDoc }) {
           }),
         ],
       }),
-      new Paragraph({ text: "", spacing: { after: 400 } }),
+      new Paragraph({ text: "", spacing: { after: 200 } }),
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
@@ -122,21 +119,27 @@ function OpeningParagraph({ updateDoc }) {
         ],
       }),
 
-      new Paragraph({ text: "", spacing: { after: 400 } }),
+      new Paragraph({ text: "", spacing: { after: 200 } }),
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
         spacing: { line: 360, after: 200 }, // 1.5 line spacing
-
         children: [
           new TextRun({
             text: `בתאריך ${surveyDate || "_________"} נערך סיור ב - ${
               locationType === "אחר" && customLocationType
                 ? customLocationType
                 : locationType || "_________"
-            } הנ"ל ע"י מהנדס ${
-              engineer || "_________"
-            }מטרת הסקר הינה בדיקה וויזואלית לקונסטרוקציית ${
+            } הנ"ל ע"י מהנדס ${engineer || "_________"}`,
+            font: "David",
+            size: 24,
+            rtl: true,
+            language: "he-IL",
+          }),
+          // Adding a line break after "engineer"
+          new TextRun({ break: 1 }),
+          new TextRun({
+            text: `מטרת הסקר הינה בדיקה וויזואלית לקונסטרוקציית ${
               meterial || "_________"
             } ב - ${
               locationType === "אחר" && customLocationType
@@ -144,14 +147,23 @@ function OpeningParagraph({ updateDoc }) {
                 : locationType || "_________"
             } ${location || "_________"} ומתן חוות דעת למצב של ${
               opinion || "_________"
-            } הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים (רעידת אדמה, פעולות חריגות/עומסים חריגים במבנה וכדומה)`,
+            }`,
+            font: "David",
+            size: 24,
+            rtl: true,
+            language: "he-IL",
+          }),
+          // Adding a line break after "opinion"
+          new TextRun({ break: 1 }),
+          new TextRun({
+            text: `הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים - רעידת אדמה, פעולות חריגות/עומסים חריגים במבנה וכדומה`,
             font: "David",
             size: 24,
             rtl: true,
             language: "he-IL",
           }),
         ],
-      }),
+      }),      
     ];
 
     // Pass the generated doc elements to the parent
