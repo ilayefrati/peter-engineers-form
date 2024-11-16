@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/peter-engineers-form/static/css/main.eb119de5.css",
-    "main.js": "/peter-engineers-form/static/js/main.df0a6bd0.js",
+    "main.js": "/peter-engineers-form/static/js/main.b1996195.js",
     "static/js/453.daa47f1d.chunk.js": "/peter-engineers-form/static/js/453.daa47f1d.chunk.js",
     "static/media/upload_images_icon.png": "/peter-engineers-form/static/media/upload_images_icon.28147b491023a24414cc.png",
     "index.html": "/peter-engineers-form/index.html",
     "main.eb119de5.css.map": "/peter-engineers-form/static/css/main.eb119de5.css.map",
-    "main.df0a6bd0.js.map": "/peter-engineers-form/static/js/main.df0a6bd0.js.map",
+    "main.b1996195.js.map": "/peter-engineers-form/static/js/main.b1996195.js.map",
     "453.daa47f1d.chunk.js.map": "/peter-engineers-form/static/js/453.daa47f1d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.eb119de5.css",
-    "static/js/main.df0a6bd0.js"
+    "static/js/main.b1996195.js"
   ]
 }
