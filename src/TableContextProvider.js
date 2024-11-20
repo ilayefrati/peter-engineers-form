@@ -91,27 +91,31 @@ export const TableContextProvider = ({
 
     // Use setTimeout to allow React to update the DOM
     setTimeout(() => {
-      const tableScroll = document.getElementById('table-scroll');
-      if (!tableScroll) {
-        console.error("Element with id 'table-scroll' not found in the DOM.");
-        return;
+      if (tableBodyRef.current) {
+        // const newRow = tableBodyRef.current.lastElementChild;
+
+        const tableScroll = document.getElementById("table-scroll");
+        if (!tableScroll) {
+          console.error("Element with id 'table-scroll' not found in the DOM.");
+          return;
+        }
+
+        tableScroll.scrollTo({
+          top: tableScroll.scrollHeight,
+          left: tableScroll.scrollWidth,
+          behavior: "smooth",
+        });
       }
-    
-      tableScroll.scrollTo({
-        top: tableScroll.scrollHeight,
-        left: tableScroll.scrollWidth,
-        behavior: 'smooth',
-      });
-    }, 0);
+    }, 0); // Delay of 0ms to ensure DOM update
   };
 
   // UseEffect to generate docx table content for both DataTable and SumTable
   useEffect(() => {
     const fontSize = 24;
     const cellPadding = {
-      top: 100,   // Top padding in twips (1/20th of a point)
+      top: 100, // Top padding in twips (1/20th of a point)
       bottom: 100, // Bottom padding in twips
-      left: 100,  // Left padding in twips
+      left: 100, // Left padding in twips
       right: 100, // Right padding in twips
     };
     const dataTableRows = table.map((row) => {
@@ -140,7 +144,7 @@ export const TableContextProvider = ({
             },
           })
         : new TableCell({
-          margins: cellPadding, // Apply padding to the header cells
+            margins: cellPadding, // Apply padding to the header cells
             children: [
               new Paragraph({
                 alignment: AlignmentType.CENTER,
