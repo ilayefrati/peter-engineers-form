@@ -285,7 +285,10 @@ export const TableContextProvider = ({
         new TableRow({
           children: [
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -293,6 +296,7 @@ export const TableContextProvider = ({
                       text: 'מס"ד',
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -302,7 +306,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -310,6 +317,7 @@ export const TableContextProvider = ({
                       text: "חומר",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -319,7 +327,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -327,6 +338,7 @@ export const TableContextProvider = ({
                       text: "אלמנט",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -336,7 +348,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -344,6 +359,7 @@ export const TableContextProvider = ({
                       text: "תיאור הליקוי",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -353,7 +369,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -361,6 +380,7 @@ export const TableContextProvider = ({
                       text: "המלצה",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -370,7 +390,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -378,6 +401,7 @@ export const TableContextProvider = ({
                       text: "חומרה",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -387,7 +411,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -395,6 +422,7 @@ export const TableContextProvider = ({
                       text: "תמונה",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -470,7 +498,10 @@ export const TableContextProvider = ({
         new TableRow({
           children: [
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -478,6 +509,7 @@ export const TableContextProvider = ({
                       text: 'מס"ד',
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,
@@ -487,7 +519,10 @@ export const TableContextProvider = ({
               ],
             }),
             new TableCell({
-              margins: cellPadding, // Apply padding to the header cells
+              margins: cellPadding,
+              shading: {
+                fill: "3f6cb1", // Light blue color (hexadecimal)
+              }, // Apply padding to the header cells // Apply padding to the header cells
               children: [
                 new Paragraph({
                   children: [
@@ -495,6 +530,7 @@ export const TableContextProvider = ({
                       text: "חומרה",
                       size: fontSize,
                       language: "he-IL",
+                      color: "FFFFFF",
                     }),
                   ],
                   alignment: AlignmentType.CENTER,

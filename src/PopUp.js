@@ -124,7 +124,10 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
           children: ["אישור לקוח", "בדק", "ערך", "תאריך", "מהדורה"].map(
             (header) =>
               new TableCell({
-                margins: cellPadding, // Apply padding to the header cells
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells
                 children: [
                   new Paragraph({
                     children: [
@@ -132,6 +135,7 @@ function PopUp({ setVisible, type, updateStatusDoc }) {
                         text: header,
                         size: fontSize,
                         language: "he-IL",
+                        color: "FFFFFF",
                       }),
                     ],
                     alignment: AlignmentType.CENTER,

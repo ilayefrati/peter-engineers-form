@@ -232,9 +232,9 @@ const DataTable = () => {
                     className="form-select"
                   >
                     <option value="">בחר רמת חומרה</option>
-                    <option value="1">1 - בהקדם וללא דיחוי</option>
-                    <option value="2">2 - בהקדם</option>
-                    <option value="3">3 - דחיפות נמוכה</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
                 </td>
                 <td>
