@@ -91,18 +91,19 @@ export const TableContextProvider = ({
 
     // Use setTimeout to allow React to update the DOM
     setTimeout(() => {
-      const tableScroll = document.getElementById('table-scroll');
-      if (!tableScroll) {
-        console.error("Element with id 'table-scroll' not found in the DOM.");
-        return;
-      }
+      if (tableBodyRef.current) {
+        // const newRow = tableBodyRef.current.lastElementChild;
     
-      tableScroll.scrollTo({
-        top: tableScroll.scrollHeight,
-        left: tableScroll.scrollWidth,
-        behavior: 'smooth',
-      });
-    }, 0);
+        let tableScroll = document.getElementById('table-scroll');
+        if (tableScroll) {
+          tableScroll.scrollTo({
+            top: tableScroll.scrollHeight,
+            left: tableScroll.scrollWidth,
+            behavior: 'smooth', // Enables smooth scrolling
+          });
+        }
+      }
+    }, 0); // Delay of 0ms to ensure DOM update
   };
 
   // UseEffect to generate docx table content for both DataTable and SumTable
