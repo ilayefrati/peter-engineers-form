@@ -104,7 +104,7 @@ export const TableContextProvider = ({
           });
         }
       }
-    }, 0); // Delay of 0ms to ensure DOM update
+    }, 100); // Delay of 0ms to ensure DOM update
   };
 
   // UseEffect to generate docx table content for both DataTable and SumTable
