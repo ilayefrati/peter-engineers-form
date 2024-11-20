@@ -19,7 +19,7 @@ const DataTable = () => {
 
   return (
     <div className="table-wrapper">
-      <div className="table-container">
+      <div className="table-container" id="table-scroll">
         <table className="styled-table">
           <thead>
             <tr>

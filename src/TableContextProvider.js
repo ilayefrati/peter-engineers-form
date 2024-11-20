@@ -92,9 +92,16 @@ export const TableContextProvider = ({
     // Use setTimeout to allow React to update the DOM
     setTimeout(() => {
       if (tableBodyRef.current) {
-        const newRow = tableBodyRef.current.lastElementChild;
-        if (newRow) {
-          newRow.scrollIntoView({ behavior: "smooth" });
+        console.log(tableBodyRef.current);
+        // const newRow = tableBodyRef.current.lastElementChild;
+    
+        let tableScroll = document.getElementById('table-scroll');
+        if (tableScroll) {
+          tableScroll.scrollTo({
+            top: tableScroll.scrollHeight,
+            left: tableScroll.scrollWidth,
+            behavior: 'smooth', // Enables smooth scrolling
+          });
         }
       }
     }, 0); // Delay of 0ms to ensure DOM update
