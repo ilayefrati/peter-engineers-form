@@ -92,7 +92,6 @@ export const TableContextProvider = ({
     // Use setTimeout to allow React to update the DOM
     setTimeout(() => {
       if (tableBodyRef.current) {
-        console.log(tableBodyRef.current);
         // const newRow = tableBodyRef.current.lastElementChild;
     
         let tableScroll = document.getElementById('table-scroll');
