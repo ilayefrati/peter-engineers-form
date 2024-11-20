@@ -94,14 +94,11 @@ export const TableContextProvider = ({
       if (tableBodyRef.current) {
         console.log(tableBodyRef.current);
         // const newRow = tableBodyRef.current.lastElementChild;
-    
-        let tableScroll = document.getElementById('table-scroll');
+
+        let tableScroll = document.getElementById("table-scroll");
         if (tableScroll) {
-          tableScroll.scrollTo({
-            top: tableScroll.scrollHeight,
-            left: tableScroll.scrollWidth,
-            behavior: 'smooth', // Enables smooth scrolling
-          });
+          tableScroll.scrollTop = tableScroll.scrollHeight;
+          tableScroll.scrollLeft = tableScroll.scrollWidth;
         }
       }
     }, 100); // Delay of 0ms to ensure DOM update
@@ -111,9 +108,9 @@ export const TableContextProvider = ({
   useEffect(() => {
     const fontSize = 24;
     const cellPadding = {
-      top: 100,   // Top padding in twips (1/20th of a point)
+      top: 100, // Top padding in twips (1/20th of a point)
       bottom: 100, // Bottom padding in twips
-      left: 100,  // Left padding in twips
+      left: 100, // Left padding in twips
       right: 100, // Right padding in twips
     };
     const dataTableRows = table.map((row) => {
@@ -142,7 +139,7 @@ export const TableContextProvider = ({
             },
           })
         : new TableCell({
-          margins: cellPadding, // Apply padding to the header cells
+            margins: cellPadding, // Apply padding to the header cells
             children: [
               new Paragraph({
                 alignment: AlignmentType.CENTER,
