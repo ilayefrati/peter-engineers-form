@@ -1,8 +1,8 @@
 const CACHE_NAME = "docx-cache-v1";
 const ASSETS_TO_CACHE = [
-  `${process.env.PUBLIC_URL}/media/instructions.png`,
-  `${process.env.PUBLIC_URL}/media/FormFooter.png`,
-  `${process.env.PUBLIC_URL}/media/peter-engineers-logo.png`,
+  "/media/instructions.png",  // Direct path relative to the root of the website
+  "/media/FormFooter.png",    // Direct path
+  "/media/peter-engineers-logo.png", // Direct path
 ];
 
 // Cache the necessary files during installation
