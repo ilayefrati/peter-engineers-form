@@ -29,6 +29,12 @@ self.addEventListener("install", (event) => {
 
 // Fetch handler
 self.addEventListener("fetch", (event) => {
+  // Skip requests from unsupported schemes like 'chrome-extension://'
+  const url = new URL(event.request.url);
+  if (url.protocol === "chrome-extension:" || url.protocol === "file:") {
+    return; // Ignore unsupported requests
+  }
+
   if (event.request.url.endsWith("/generate-docx")) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
