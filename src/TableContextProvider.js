@@ -19,6 +19,7 @@ export const TableContextProvider = ({
   children,
   updateTableDoc,
   updateSumTableDoc,
+  buttonClicked,
 }) => {
   const [table, setTable] = useState([]);
 
@@ -106,349 +107,58 @@ export const TableContextProvider = ({
 
   // UseEffect to generate docx table content for both DataTable and SumTable
   useEffect(() => {
-    const fontSize = 24;
-    const cellPadding = {
-      top: 100, // Top padding in twips (1/20th of a point)
-      bottom: 100, // Bottom padding in twips
-      left: 100, // Left padding in twips
-      right: 100, // Right padding in twips
-    };
-    const dataTableRows = table.map((row) => {
-      const imageCell = row.image
-        ? new TableCell({
-            children: [
-              new Paragraph({
-                alignment: AlignmentType.CENTER, // Center horizontally within the paragraph
-                children: [
-                  new ImageRun({
-                    data: row.image.split(",")[1],
-                    transformation: {
-                      width: 80, // Set desired width
-                      height: 80, // Set desired height
-                    },
-                  }),
-                ],
-              }),
-            ],
-            verticalAlign: "center", // Center vertically within the cell
-            margins: {
-              top: 100,
-              bottom: 100,
-              left: 100,
-              right: 100,
-            },
-          })
-        : new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: [
-              new Paragraph({
-                alignment: AlignmentType.CENTER,
-                children: [
-                  new TextRun({
-                    text: "No Image",
-                    size: fontSize,
-                    language: "he-IL",
-                  }),
-                ],
-                font: "David",
-              }),
-            ],
-            verticalAlign: "center",
-          });
+    if (buttonClicked) {
+      const fontSize = 24;
+      const cellPadding = {
+        top: 100, // Top padding in twips (1/20th of a point)
+        bottom: 100, // Bottom padding in twips
+        left: 100, // Left padding in twips
+        right: 100, // Right padding in twips
+      };
+      const dataTableRows = table.map((row) => {
+        const imageCell = row.image
+          ? new TableCell({
+              children: [
+                new Paragraph({
+                  alignment: AlignmentType.CENTER, // Center horizontally within the paragraph
+                  children: [
+                    new ImageRun({
+                      data: row.image.split(",")[1],
+                      transformation: {
+                        width: 80, // Set desired width
+                        height: 80, // Set desired height
+                      },
+                    }),
+                  ],
+                }),
+              ],
+              verticalAlign: "center", // Center vertically within the cell
+              margins: {
+                top: 100,
+                bottom: 100,
+                left: 100,
+                right: 100,
+              },
+            })
+          : new TableCell({
+              margins: cellPadding, // Apply padding to the header cells
+              children: [
+                new Paragraph({
+                  alignment: AlignmentType.CENTER,
+                  children: [
+                    new TextRun({
+                      text: "No Image",
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  font: "David",
+                }),
+              ],
+              verticalAlign: "center",
+            });
 
-      return new TableRow({
-        children: [
-          new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: String(row.index),
-                    size: fontSize,
-                    language: "he-IL",
-                  }),
-                ],
-                alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT,
-                font: "David",
-              }),
-            ],
-          }),
-          new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text:
-                      row.material === "אחר" ? row.materialOther : row.material,
-                    size: fontSize,
-                    language: "he-IL",
-                  }),
-                ],
-                alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT,
-                font: "David",
-              }),
-            ],
-          }),
-          new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text:
-                      row.element === "אחר" ? row.elementOther : row.element,
-                    size: fontSize,
-                    language: "he-IL",
-                  }),
-                ],
-                alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT,
-                font: "David",
-              }),
-            ],
-          }),
-          new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: row.deficiencies.map(
-              (deficiency) =>
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text:
-                        deficiency.value === "אחר"
-                          ? deficiency.customValue
-                          : deficiency.value,
-                      size: fontSize,
-                      language: "he-IL",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                })
-            ),
-          }),
-          new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: row.recommendations.map(
-              (recommendation) =>
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text:
-                        recommendation.value === "אחר"
-                          ? recommendation.customValue
-                          : recommendation.value,
-                      size: fontSize,
-                      language: "he-IL",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                })
-            ),
-          }),
-          new TableCell({
-            margins: cellPadding, // Apply padding to the header cells
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: row.severity,
-                    size: fontSize,
-                    language: "he-IL",
-                  }),
-                ],
-                alignment: AlignmentType.CENTER,
-                textDirection: TextDirection.RIGHT_TO_LEFT,
-                font: "David",
-              }),
-            ],
-          }),
-          imageCell,
-        ],
-      });
-    });
-
-    // DataTable: Create the actual table for the docx file
-    const dataTableElement = new Table({
-      visuallyRightToLeft: true,
-      width: {
-        size: 100,
-        type: WidthType.AUTO,
-      },
-      columnWidths: [1000, 1000, 1000],
-
-      rows: [
-        // Add table header
-        new TableRow({
-          children: [
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: 'מס"ד',
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "חומר",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "אלמנט",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "תיאור הליקוי",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "המלצה",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "חומרה",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "תמונה",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-          ],
-        }),
-        ...dataTableRows, // Add the rows
-      ],
-      alignment: AlignmentType.CENTER, // Center the table itself
-    });
-
-    // Pass the DataTable to App
-    updateTableDoc([dataTableElement]);
-
-    // SumTable: Define table rows for SumTable (only index and severity)
-    const sumTableRows = table.map(
-      (row) =>
-        new TableRow({
+        return new TableRow({
           children: [
             new TableCell({
               margins: cellPadding, // Apply padding to the header cells
@@ -473,6 +183,86 @@ export const TableContextProvider = ({
                 new Paragraph({
                   children: [
                     new TextRun({
+                      text:
+                        row.material === "אחר"
+                          ? row.materialOther
+                          : row.material,
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
+                }),
+              ],
+            }),
+            new TableCell({
+              margins: cellPadding, // Apply padding to the header cells
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text:
+                        row.element === "אחר" ? row.elementOther : row.element,
+                      size: fontSize,
+                      language: "he-IL",
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  textDirection: TextDirection.RIGHT_TO_LEFT,
+                  font: "David",
+                }),
+              ],
+            }),
+            new TableCell({
+              margins: cellPadding, // Apply padding to the header cells
+              children: row.deficiencies.map(
+                (deficiency) =>
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text:
+                          deficiency.value === "אחר"
+                            ? deficiency.customValue
+                            : deficiency.value,
+                        size: fontSize,
+                        language: "he-IL",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  })
+              ),
+            }),
+            new TableCell({
+              margins: cellPadding, // Apply padding to the header cells
+              children: row.recommendations.map(
+                (recommendation) =>
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text:
+                          recommendation.value === "אחר"
+                            ? recommendation.customValue
+                            : recommendation.value,
+                        size: fontSize,
+                        language: "he-IL",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  })
+              ),
+            }),
+            new TableCell({
+              margins: cellPadding, // Apply padding to the header cells
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({
                       text: row.severity,
                       size: fontSize,
                       language: "he-IL",
@@ -484,75 +274,290 @@ export const TableContextProvider = ({
                 }),
               ],
             }),
+            imageCell,
           ],
-        })
-    );
+        });
+      });
 
-    // SumTable: Create the actual SumTable for the docx file
-    const sumTableElement = new Table({
-      visuallyRightToLeft: true,
-      width: {
-        size: 100,
-        type: WidthType.AUTO,
-      },
-      columnWidths: [1000, 1000, 1000],
+      // DataTable: Create the actual table for the docx file
+      const dataTableElement = new Table({
+        visuallyRightToLeft: true,
+        width: {
+          size: 100,
+          type: WidthType.AUTO,
+        },
+        columnWidths: [1000, 1000, 1000],
 
-      rows: [
-        // Add table header
-        new TableRow({
-          children: [
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: 'מס"ד',
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-            new TableCell({
-              margins: cellPadding,
-              shading: {
-                fill: "3f6cb1", // Light blue color (hexadecimal)
-              }, // Apply padding to the header cells // Apply padding to the header cells
-              children: [
-                new Paragraph({
-                  children: [
-                    new TextRun({
-                      text: "חומרה",
-                      size: fontSize,
-                      language: "he-IL",
-                      color: "FFFFFF",
-                    }),
-                  ],
-                  alignment: AlignmentType.CENTER,
-                  textDirection: TextDirection.RIGHT_TO_LEFT,
-                  font: "David",
-                }),
-              ],
-            }),
-          ],
-        }),
-        ...sumTableRows, // Add the rows
-      ],
-      alignment: AlignmentType.CENTER, // Center the table itself
-    });
+        rows: [
+          // Add table header
+          new TableRow({
+            children: [
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: 'מס"ד',
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "חומר",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "אלמנט",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "תיאור הליקוי",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "המלצה",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "חומרה",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "תמונה",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+            ],
+          }),
+          ...dataTableRows, // Add the rows
+        ],
+        alignment: AlignmentType.CENTER, // Center the table itself
+      });
 
-    // Pass the SumTable to App
-    updateSumTableDoc([sumTableElement]);
-  }, [table, updateTableDoc, updateSumTableDoc]);
+      // Pass the DataTable to App
+      updateTableDoc([dataTableElement]);
+
+      // SumTable: Define table rows for SumTable (only index and severity)
+      const sumTableRows = table.map(
+        (row) =>
+          new TableRow({
+            children: [
+              new TableCell({
+                margins: cellPadding, // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: String(row.index),
+                        size: fontSize,
+                        language: "he-IL",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding, // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: row.severity,
+                        size: fontSize,
+                        language: "he-IL",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+            ],
+          })
+      );
+
+      // SumTable: Create the actual SumTable for the docx file
+      const sumTableElement = new Table({
+        visuallyRightToLeft: true,
+        width: {
+          size: 100,
+          type: WidthType.AUTO,
+        },
+        columnWidths: [1000, 1000, 1000],
+
+        rows: [
+          // Add table header
+          new TableRow({
+            children: [
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: 'מס"ד',
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+              new TableCell({
+                margins: cellPadding,
+                shading: {
+                  fill: "3f6cb1", // Light blue color (hexadecimal)
+                }, // Apply padding to the header cells // Apply padding to the header cells
+                children: [
+                  new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: "חומרה",
+                        size: fontSize,
+                        language: "he-IL",
+                        color: "FFFFFF",
+                      }),
+                    ],
+                    alignment: AlignmentType.CENTER,
+                    textDirection: TextDirection.RIGHT_TO_LEFT,
+                    font: "David",
+                  }),
+                ],
+              }),
+            ],
+          }),
+          ...sumTableRows, // Add the rows
+        ],
+        alignment: AlignmentType.CENTER, // Center the table itself
+      });
+
+      // Pass the SumTable to App
+      updateSumTableDoc([sumTableElement]);
+    }
+  }, [buttonClicked]);
 
   return (
     <TableContext.Provider

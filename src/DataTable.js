@@ -252,6 +252,7 @@ const DataTable = () => {
                     <img
                       src={row.image}
                       alt="Preview"
+                      loading="lazy"
                       style={{
                         width: "150px",
                         height: "150px",

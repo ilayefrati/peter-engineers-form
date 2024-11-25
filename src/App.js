@@ -31,6 +31,7 @@ function App() {
   const [tableElements, setTableElements] = useState([]);
   const [sumTableElements, setSumTableElements] = useState([]);
   const [imagesUploaderElements, setImagesUploaderElements] = useState([]);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const instructionsURL = `${process.env.PUBLIC_URL}/media/instructions.png`;
   const footerURL = `${process.env.PUBLIC_URL}/media/FormFooter.png`;
@@ -43,6 +44,7 @@ function App() {
   }
 
   const handleGenerateDoc = async () => {
+    setButtonClicked(true);
     const instructionsImageData = await getImage(instructionsURL);
     const footerImageData = await getImage(footerURL);
     const headerImageData = await getImage(headerURL);
@@ -236,6 +238,7 @@ function App() {
         <TableContextProvider
           updateTableDoc={setTableElements}
           updateSumTableDoc={setSumTableElements}
+          buttonClicked={buttonClicked}
         >
           <SumTable />
           <ImagesUploader updateImagesUploaderDoc={setImagesUploaderElements} />
