@@ -32,6 +32,8 @@ function App() {
   const [sumTableElements, setSumTableElements] = useState([]);
   const [imagesUploaderElements, setImagesUploaderElements] = useState([]);
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [isTableDataReady, setIsTableDataReady] = useState(false);
+  const [isSumTableDataReady, setIsSumTableDataReady] = useState(false);
 
   const instructionsURL = `${process.env.PUBLIC_URL}/media/instructions.png`;
   const footerURL = `${process.env.PUBLIC_URL}/media/FormFooter.png`;
@@ -43,109 +45,11 @@ function App() {
     return await imageBlob.arrayBuffer();
   }
 
-  const handleGenerateDoc = async () => {
-    setButtonClicked(true);
-    const instructionsImageData = await getImage(instructionsURL);
-    const footerImageData = await getImage(footerURL);
-    const headerImageData = await getImage(headerURL);
-
-    const doc = new Document({
-      sections: [
-        {
-          properties: {
-            // Ensure footer appears on the first page as well
-            footerType: {
-              default: true,
-              first: false,
-            },
-          },
-          headers: {
-            default: new Header({
-              children: [
-                new Paragraph({
-                  alignment: AlignmentType.CENTER,
-                  children: [
-                    new ImageRun({
-                      data: headerImageData,
-                      transformation: { width: 600, height: 70 },
-                    }),
-                  ],
-                }),
-                new Paragraph({ text: "", spacing: { after: 200 } }), // Add spacing after the header
-              ],
-            }),
-           
-          },
-          children: [
-            ...openingParagraphElements,
-            new Paragraph({ text: "", spacing: { after: 400 } }),
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה:',
-                  size: 24,
-                  language: "he-IL",
-                }),
-                new TextRun({
-                  text: "",
-                  break: 1,
-                }),
-                new TextRun({
-                  text: "מדורג מהדחיפות הגבוהה אל הנמוכה",
-                  size: 24,
-                  language: "he-IL",
-                }),
-              ],
-              font: "David",
-              alignment: AlignmentType.CENTER,
-              textDirection: TextDirection.RIGHT_TO_LEFT,
-              spacing: { after: 200 },
-            }),
-            new Paragraph({
-              children: [
-                new ImageRun({
-                  data: instructionsImageData,
-                  transformation: { width: 200, height: 50 },
-                }),
-              ],
-              alignment: AlignmentType.CENTER,
-            }),
-            new Paragraph({ text: "", spacing: { after: 400 } }),
-            ...statusTableElements,
-            new Paragraph({ children: [], pageBreakBefore: true }),
-            ...sumTableElements,
-            new Paragraph({ children: [], pageBreakBefore: true }),
-            ...imagesUploaderElements,
-            new Paragraph({ children: [], pageBreakBefore: true }),
-            ...tableElements,
-          ],
-
-          footers: {
-            default: new Footer({
-              children: [
-                new Paragraph({
-                  alignment: AlignmentType.CENTER,
-                  children: [
-                    new ImageRun({
-                      data: footerImageData,
-                      transformation: { width: 600, height: 100 },
-                    }),
-                  ],
-                }),
-              ],
-            }),
-          },
-        },
-      ],
-    });
-
-    Packer.toBlob(doc).then((blob) => {
-      const file = new Blob([blob], {
-        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      });
-      saveAs(file, "example.docx");
-    });
-  };
+  useEffect(() => {
+    if (buttonClicked && isTableDataReady && isSumTableDataReady) {
+      handleGenerateDoc();
+    }
+  }, [buttonClicked, isTableDataReady, isSumTableDataReady]); // Only run when buttonClicked and isTableDataReady change
 
   useEffect(() => {
     const savedStatus = JSON.parse(localStorage.getItem("status"));
@@ -158,9 +62,9 @@ function App() {
   function convertStatusToDocTable(statusData) {
     const fontSize = 24;
     const cellPadding = {
-      top: 100,   // Top padding in twips (1/20th of a point)
+      top: 100, // Top padding in twips (1/20th of a point)
       bottom: 100, // Bottom padding in twips
-      left: 100,  // Left padding in twips
+      left: 100, // Left padding in twips
       right: 100, // Right padding in twips
     };
     return new Table({
@@ -227,6 +131,103 @@ function App() {
     });
   }
 
+  const handleGenerateDoc = async () => {
+    const instructionsImageData = await getImage(instructionsURL);
+    const footerImageData = await getImage(footerURL);
+    const headerImageData = await getImage(headerURL);
+
+    const doc = new Document({
+      sections: [
+        {
+          properties: {
+            footerType: {
+              default: true,
+              first: false,
+            },
+          },
+          headers: {
+            default: new Header({
+              children: [
+                new Paragraph({
+                  alignment: AlignmentType.CENTER,
+                  children: [
+                    new ImageRun({
+                      data: headerImageData,
+                      transformation: { width: 600, height: 70 },
+                    }),
+                  ],
+                }),
+                new Paragraph({ text: "", spacing: { after: 200 } }),
+              ],
+            }),
+          },
+          children: [
+            ...openingParagraphElements,
+            new Paragraph({ text: "", spacing: { after: 400 } }),
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: 'דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה:',
+                  size: 24,
+                  language: "he-IL",
+                }),
+                new TextRun({ text: "", break: 1 }),
+                new TextRun({
+                  text: "מדורג מהדחיפות הגבוהה אל הנמוכה",
+                  size: 24,
+                  language: "he-IL",
+                }),
+              ],
+              font: "David",
+              alignment: AlignmentType.CENTER,
+              textDirection: TextDirection.RIGHT_TO_LEFT,
+              spacing: { after: 200 },
+            }),
+            new Paragraph({
+              children: [
+                new ImageRun({
+                  data: instructionsImageData,
+                  transformation: { width: 200, height: 50 },
+                }),
+              ],
+              alignment: AlignmentType.CENTER,
+            }),
+            new Paragraph({ text: "", spacing: { after: 400 } }),
+            ...statusTableElements,
+            new Paragraph({ children: [], pageBreakBefore: true }),
+            ...sumTableElements,
+            new Paragraph({ children: [], pageBreakBefore: true }),
+            ...imagesUploaderElements,
+            new Paragraph({ children: [], pageBreakBefore: true }),
+            ...tableElements,
+          ],
+          footers: {
+            default: new Footer({
+              children: [
+                new Paragraph({
+                  alignment: AlignmentType.CENTER,
+                  children: [
+                    new ImageRun({
+                      data: footerImageData,
+                      transformation: { width: 600, height: 100 },
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          },
+        },
+      ],
+    });
+
+    Packer.toBlob(doc).then((blob) => {
+      const file = new Blob([blob], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
+      saveAs(file, "example.docx");
+    });
+  };
+
   return (
     <>
       <FormHeader />
@@ -236,8 +237,14 @@ function App() {
           updateStatusDoc={setStatusTableElements}
         />
         <TableContextProvider
-          updateTableDoc={setTableElements}
-          updateSumTableDoc={setSumTableElements}
+          updateTableDoc={(data) => {
+            setTableElements(data);
+            setIsTableDataReady(true); // Indicate table data is ready
+          }}
+          updateSumTableDoc={(data) => {
+            setSumTableElements(data);
+            setIsSumTableDataReady(true); // Indicate sum table data is ready
+          }}
           buttonClicked={buttonClicked}
         >
           <SumTable />
@@ -249,7 +256,7 @@ function App() {
           <Button
             type="secondary"
             text='הורד דו"ח'
-            onClick={handleGenerateDoc}
+            onClick={() => setButtonClicked(true)}
           />
         </div>
       </div>
