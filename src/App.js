@@ -46,6 +46,7 @@ function App() {
   }
 
   useEffect(() => {
+    console.log(buttonClicked,isSumTableDataReady,isSumTableDataReady);
     if (buttonClicked && isTableDataReady && isSumTableDataReady) {
       handleGenerateDoc();
     }
@@ -225,6 +226,10 @@ function App() {
         type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       });
       saveAs(file, "example.docx");
+      setButtonClicked(false);
+      setIsTableDataReady(false);
+      setIsSumTableDataReady(false);
+      //צריך לאתחל את הערך של הסטייטים האלה, כדי שנוכל להוריד עוד פעם את הדוקס מעודכן!
     });
   };
 
