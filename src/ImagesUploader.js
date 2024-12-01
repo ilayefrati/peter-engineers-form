@@ -23,7 +23,9 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
   // Update image title
   const handleTitleChange = (id, newTitle) => {
     setImages((prevImages) =>
-      prevImages.map((img) => (img.id === id ? { ...img, title: newTitle } : img))
+      prevImages.map((img) =>
+        img.id === id ? { ...img, title: newTitle } : img
+      )
     );
   };
 
@@ -65,9 +67,14 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
               new Paragraph({
                 alignment: AlignmentType.CENTER,
                 children: [
-                  new TextRun({ text: image.title || "Untitled Image", bold: true, underline:true, language: "he-IL"}), // Title as bold text
+                  new TextRun({
+                    text: image.title || "Untitled Image",
+                    bold: true,
+                    underline: true,
+                    language: "he-IL",
+                  }), // Title as bold text
                 ],
-                font: "David"
+                font: "David",
               }),
               new Paragraph({ text: "", spacing: { after: 100 } }),
               new Paragraph({
@@ -105,7 +112,20 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
         />
         <label htmlFor="fileInput">
           <div className="upload-icon" />
-          <p>העלה/צלם תמונה</p>
+          <p>העלה תמונה</p>
+        </label>
+        <input
+          id="cameraInput"
+          type="file"
+          accept="image/*"
+          multiple
+          capture="environment"
+          onChange={handleImageChange}
+          className="input-file"
+        />
+        <label htmlFor="cameraInput">
+          <div className="camera-icon" />
+          <p>צלם תמונה</p>
         </label>
       </div>
 
