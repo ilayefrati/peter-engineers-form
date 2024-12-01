@@ -34,6 +34,7 @@ function App() {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [isTableDataReady, setIsTableDataReady] = useState(false);
   const [isSumTableDataReady, setIsSumTableDataReady] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const instructionsURL = `${process.env.PUBLIC_URL}/media/instructions.png`;
   const footerURL = `${process.env.PUBLIC_URL}/media/FormFooter.png`;
@@ -136,7 +137,7 @@ function App() {
     const instructionsImageData = await getImage(instructionsURL);
     const footerImageData = await getImage(footerURL);
     const headerImageData = await getImage(headerURL);
-
+    setIsGenerating(true);
     const doc = new Document({
       sections: [
         {
@@ -229,6 +230,7 @@ function App() {
       setButtonClicked(false);
       setIsTableDataReady(false);
       setIsSumTableDataReady(false);
+      setIsGenerating(false);
       //צריך לאתחל את הערך של הסטייטים האלה, כדי שנוכל להוריד עוד פעם את הדוקס מעודכן!
     });
   };
@@ -260,7 +262,7 @@ function App() {
           <Button type="primary" text='שלח דו"ח' />
           <Button
             type="secondary"
-            text='הורד דו"ח'
+            text= {isGenerating ? '...מוריד' : 'הורד דו"ח'}
             onClick={() => setButtonClicked(true)}
           />
         </div>
