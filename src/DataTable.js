@@ -238,16 +238,30 @@ const DataTable = () => {
                   </select>
                 </td>
                 <td>
-                  <label className="image-input-label">
-                    <input
-                      className="image-input"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) =>
-                        handleImageUpload(index, e.target.files[0])
-                      }
-                    />
-                  </label>
+                  <div className="media-inputs-container">
+                    <label className="image-input-label">
+                      <input
+                        className="image-input"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                          handleImageUpload(index, e.target.files[0])
+                        }
+                      />
+                    </label>
+                    <label className="camera-input-label">
+                      <input
+                        className="image-input"
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        onChange={(e) =>
+                          handleImageUpload(index, e.target.files[0])
+                        }
+                      />
+                    </label>
+                  </div>
+
                   {row.image && (
                     <img
                       src={row.image}
