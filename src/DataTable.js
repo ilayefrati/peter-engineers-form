@@ -81,7 +81,7 @@ const DataTable = () => {
                     <option value="דיאגונל">דיאגונל</option>
                     <option value="חיפוי">חיפוי</option>
                     <option value="מעקה">מעקה</option>
-                    <option value="מרדך">מרדך</option>
+                    <option value="מדרך">מדרך</option>
                     <option value="סולם">סולם</option>
                     <option value="בסיס">בסיס</option>
                     <option value="תמיכה">תמיכה</option>
@@ -132,6 +132,9 @@ const DataTable = () => {
                         <option value="ברזל זיון חשוף">ברזל זיון חשוף</option>
                         <option value="אלמנט לא מופיע בתוכנית">
                           אלמנט לא מופיע בתוכנית
+                        </option>
+                        <option value="מחבר לא תקין">
+                          מחבר לא תקין
                         </option>
                         <option value="אחר">אחר</option>
                       </select>
@@ -193,6 +196,8 @@ const DataTable = () => {
                         <option value="השלמת ברגים">השלמת ברגים</option>
                         <option value="הסרת ההפרעה">הסרת ההפרעה</option>
                         <option value="הידוק ברגים">הידוק ברגים</option>
+                        <option value="החלפת ברגים">החלפת ברגים</option>
+                        <option value="ריתוך">ריתוך</option>
                         <option value="אחר">אחר</option>
                       </select>
                       {recommendation.value === "אחר" && (
