@@ -5,18 +5,41 @@ import Button from "./Button";
 import { Paragraph, TextRun, ImageRun, AlignmentType } from "docx"; // Import docx components
 
 function ImagesUploader({ updateImagesUploaderDoc }) {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(() => {
+    // Initialize images from localStorage if available
+    const savedImages = localStorage.getItem('imagesData');
+    return savedImages ? JSON.parse(savedImages) : [];
+  });
   const [showRenderedImages, setShowRenderedImages] = useState(false);
 
+  // Save images to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('imagesData', JSON.stringify(images));
+  }, [images]);
+
+  // Convert file to base64
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   // Handle file selection (file, gallery, or camera)
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const files = Array.from(event.target.files);
-    const newImages = files.map((file) => ({
-      id: Math.random().toString(36).substr(2, 9), // Unique ID for each image
-      file: URL.createObjectURL(file),
-      rawFile: file,
-      title: "", // Add title field for each image, initially empty
-    }));
+    const newImages = await Promise.all(
+      files.map(async (file) => {
+        const base64String = await fileToBase64(file);
+        return {
+          id: Math.random().toString(36).substr(2, 9),
+          base64: base64String, // Store base64 version for localStorage
+          title: "",
+        };
+      })
+    );
     setImages((prevImages) => [...prevImages, ...newImages]);
   };
 
@@ -36,8 +59,14 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
 
   // Clear all images from preview
   const handleClearImages = () => {
+    // Clear images from state
     setImages([]);
-    setShowRenderedImages(false); // Clear rendered images as well
+    setShowRenderedImages(false);
+
+    // Clear image titles from localStorage (from 1000 to 1100)
+    for (let i = 1000; i < 1100; i++) {
+      localStorage.removeItem(String(i));
+    }
   };
 
   // Handle rendering the images
@@ -45,56 +74,55 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
     setShowRenderedImages(true);
   };
 
-  // Helper function to convert file to ArrayBuffer
-  const readFileAsArrayBuffer = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
   // UseEffect to generate docx elements when images are updated
   useEffect(() => {
     if (showRenderedImages) {
-      // Generate doc elements with image data
       const generateDocElements = async () => {
-        const imageDocElements = await Promise.all(
-          images.map(async (image) => {
-            const imageBuffer = await readFileAsArrayBuffer(image.rawFile); // Read image as ArrayBuffer
-            return [
-              new Paragraph({
-                alignment: AlignmentType.CENTER,
-                children: [
-                  new TextRun({
-                    text: image.title || "Untitled Image",
-                    bold: true,
-                    underline: true,
-                    language: "he-IL",
-                  }), // Title as bold text
-                ],
-                font: "David",
-              }),
-              new Paragraph({ text: "", spacing: { after: 100 } }),
-              new Paragraph({
-                alignment: AlignmentType.CENTER,
-                children: [
-                  new ImageRun({
-                    data: imageBuffer, // Use the ArrayBuffer for the image
-                    transformation: { width: 150, height: 150 }, // Size the image
-                  }),
-                ],
-              }),
-              new Paragraph({ text: "", spacing: { after: 200 } }),
-            ];
-          })
-        );
+        const imageDocElements = images.map((image, index) => {
+          // Convert base64 string to ArrayBuffer
+          const base64Data = image.base64.split(',')[1];
+          const binaryString = window.atob(base64Data);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          const imageBuffer = bytes.buffer;
 
-        updateImagesUploaderDoc(imageDocElements.flat()); // Flatten to pass as a single array of elements
+          // Get title from localStorage or use image.title or default
+          const storedTitle = localStorage.getItem(String(1000 + index));
+          const titleText = storedTitle || image.title || "Untitled Image";
+
+          return [
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [
+                new TextRun({
+                  text: titleText,
+                  bold: true,
+                  underline: true,
+                  language: "he-IL",
+                }),
+              ],
+              font: "David",
+            }),
+            new Paragraph({ text: "", spacing: { after: 100 } }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [
+                new ImageRun({
+                  data: imageBuffer,
+                  transformation: { width: 150, height: 150 },
+                }),
+              ],
+            }),
+            new Paragraph({ text: "", spacing: { after: 200 } }),
+          ];
+        });
+
+        updateImagesUploaderDoc(imageDocElements.flat());
       };
 
-      generateDocElements(); // Call the function to generate doc elements
+      generateDocElements();
     }
   }, [images, updateImagesUploaderDoc, showRenderedImages]);
 
@@ -133,8 +161,11 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
       <div className="preview-section">
         {images.map((image) => (
           <div key={image.id} className="preview-item">
-            {/* Only render image without title in the preview */}
-            <img src={image.file} alt="preview" className="preview-img" />
+            <img 
+              src={image.base64}
+              alt="preview" 
+              className="preview-img" 
+            />
             <button
               onClick={() => handleRemoveImage(image.id)}
               className="remove-button"
@@ -154,12 +185,14 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
       {/* Rendered images in a column, after user presses "אשר" */}
       {showRenderedImages && (
         <div className="rendered-images">
-          {images.map((image) => (
+          {images.map((image, index) => (
             <div key={image.id} className="rendered-item">
               <ImageAndTitle
-                src={image.file}
+                src={image.base64}
                 title={image.title}
-                setTitle={(newTitle) => handleTitleChange(image.id, newTitle)} // Pass setTitle to ImageAndTitle for rendered images
+                setTitle={(newTitle) => handleTitleChange(image.id, newTitle)}
+                imageId={image.id}
+                index={index}
               />
             </div>
           ))}

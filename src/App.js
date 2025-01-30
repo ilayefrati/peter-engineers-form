@@ -169,9 +169,10 @@ function App() {
             new Paragraph({
               children: [
                 new TextRun({
-                  text: 'דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה:',
+                  text: 'דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה',
                   size: 24,
                   language: "he-IL",
+                  rtl: true,
                 }),
                 new TextRun({ text: "", break: 1 }),
                 new TextRun({

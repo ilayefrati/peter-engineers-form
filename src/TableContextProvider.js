@@ -21,7 +21,16 @@ export const TableContextProvider = ({
   updateSumTableDoc,
   buttonClicked,
 }) => {
-  const [table, setTable] = useState([]);
+  const [table, setTable] = useState(() => {
+    // Initialize table from localStorage if available
+    const savedTable = localStorage.getItem('tableData');
+    return savedTable ? JSON.parse(savedTable) : [];
+  });
+
+  // Save table data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('tableData', JSON.stringify(table));
+  }, [table]);
 
   // Function to handle input changes for a row, including image and deficiency
   const handleInputChange = (
@@ -74,10 +83,8 @@ export const TableContextProvider = ({
 
   // Function to create a new row
   const addRow = (tableBodyRef) => {
-    // Add a new row to the table state
-    setTable((prevTable) => [
-      ...prevTable,
-      {
+    setTable((prevTable) => {
+      const newRow = {
         index: prevTable.length + 1,
         material: "",
         materialOther: "",
@@ -87,22 +94,19 @@ export const TableContextProvider = ({
         recommendations: [{ value: "", customValue: "" }],
         severity: "",
         image: "",
-      },
-    ]);
+      };
+      return [...prevTable, newRow];
+    });
 
-    // Use setTimeout to allow React to update the DOM
     setTimeout(() => {
       if (tableBodyRef.current) {
-        console.log(tableBodyRef.current);
-        // const newRow = tableBodyRef.current.lastElementChild;
-
         let tableScroll = document.getElementById("table-scroll");
         if (tableScroll) {
           tableScroll.scrollTop = tableScroll.scrollHeight;
           tableScroll.scrollLeft = tableScroll.scrollWidth;
         }
       }
-    }, 100); // Delay of 0ms to ensure DOM update
+    }, 100);
   };
 
   // UseEffect to generate docx table content for both DataTable and SumTable

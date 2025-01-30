@@ -18,15 +18,23 @@ function OpeningParagraph({ updateDoc }) {
   const [engineer, setEngineer] = useState("");
   const [opinion, setOpinion] = useState("");
 
+  useEffect(() => {
+    const savedMeterial = localStorage.getItem("6");
+    const savedLocationType = localStorage.getItem("7");
+    
+    if (savedMeterial) setMeterial(savedMeterial);
+    if (savedLocationType) setLocationType(savedLocationType);
+  }, []);
+
   // Update doc elements whenever any of the form fields change
   useEffect(() => {
     const docElements = [
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `לכבוד: ${recipient || "_________"}`,
+            text: `לכבוד: ${localStorage.getItem("לכבוד:") || recipient || "_________"}`,
             font: "David",
             size: 24,
             rtl: true,
@@ -37,11 +45,10 @@ function OpeningParagraph({ updateDoc }) {
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
-
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `תאריך: ${date || "_________"}`,
+            text: `תאריך: ${localStorage.getItem("תאריך:") || date || "_________"}`,
             font: "David",
             size: 24,
             rtl: true,
@@ -52,11 +59,10 @@ function OpeningParagraph({ updateDoc }) {
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
-
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `לידי: ${contactPerson || "_________"}`,
+            text: `לידי: ${localStorage.getItem("לידי:") || contactPerson || "_________"}`,
             font: "David",
             size: 24,
             rtl: true,
@@ -67,11 +73,10 @@ function OpeningParagraph({ updateDoc }) {
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
-
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `פרוייקט: ${project || "_________"}`,
+            text: `פרוייקט: ${localStorage.getItem("פרוייקט:") || project || "_________"}`,
             font: "David",
             size: 24,
             rtl: true,
@@ -83,12 +88,11 @@ function OpeningParagraph({ updateDoc }) {
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
-
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
             text: `הנדון: דו"ח סקר ויזואלי לאלמנטי קונסטרוקציה ${
-              meterial || "_________"
+              localStorage.getItem("6") || meterial || "_________"
             }`,
             font: "David",
             size: 32,
@@ -101,15 +105,15 @@ function OpeningParagraph({ updateDoc }) {
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
-
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
             text: `מיקום: ${
-              locationType === "אחר" && customLocationType
-                ? customLocationType
-                : locationType || "_________"
-            } ${location || "_________"}`,
+              locationType === "אחר" && 
+              (localStorage.getItem("1") || customLocationType)
+                ? (localStorage.getItem("1") || customLocationType)
+                : (localStorage.getItem("7") || locationType || "_________")
+            } ${localStorage.getItem("2") || location || "_________"}`,
             font: "David",
             size: 32,
             bold: true,
@@ -123,40 +127,40 @@ function OpeningParagraph({ updateDoc }) {
 
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 }, // 1.5 line spacing
+        spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `בתאריך ${surveyDate || "_________"} נערך סיור ב - ${
-              locationType === "אחר" && customLocationType
-                ? customLocationType
-                : locationType || "_________"
-            } הנ"ל ע"י מהנדס ${engineer || "_________"}`,
+            text: `בתאריך ${localStorage.getItem("3") || surveyDate || "_________"} נערך סיור ב - ${
+              locationType === "אחר" && 
+              (localStorage.getItem("1") || customLocationType)
+                ? (localStorage.getItem("1") || customLocationType)
+                : (localStorage.getItem("7") || locationType || "_________")
+            } הנ"ל ע"י מהנדס ${localStorage.getItem("4") || engineer || "_________"}`,
             font: "David",
             size: 24,
             rtl: true,
             language: "he-IL",
           }),
-          // Adding a line break after "engineer"
           new TextRun({ break: 1 }),
           new TextRun({
             text: `מטרת הסקר הינה בדיקה וויזואלית לקונסטרוקציית ${
-              meterial || "_________"
+              localStorage.getItem("6") || meterial || "_________"
             } ב - ${
-              locationType === "אחר" && customLocationType
-                ? customLocationType
-                : locationType || "_________"
-            } ${location || "_________"} ומתן חוות דעת למצב של ${
-              opinion || "_________"
+              locationType === "אחר" && 
+              (localStorage.getItem("1") || customLocationType)
+                ? (localStorage.getItem("1") || customLocationType)
+                : (localStorage.getItem("7") || locationType || "_________")
+            } ${localStorage.getItem("2") || location || "_________"} ומתן חוות דעת למצב של ${
+              localStorage.getItem("5") || opinion || "_________"
             }`,
             font: "David",
             size: 24,
             rtl: true,
             language: "he-IL",
           }),
-          // Adding a line break after "opinion"
           new TextRun({ break: 1 }),
           new TextRun({
-            text: `הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים - רעידת אדמה, פעולות חריגות/עומסים חריגים במבנה וכדומה`,
+            text: `הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים - רעידת אדמה/פעולות חריגות/עומסים חריגים במבנה וכדומה`,
             font: "David",
             size: 24,
             rtl: true,
@@ -221,7 +225,10 @@ function OpeningParagraph({ updateDoc }) {
             name="meterials"
             id="meterials"
             value={meterial}
-            onChange={(e) => setMeterial(e.target.value)}
+            onChange={(e) => {
+              setMeterial(e.target.value);
+              localStorage.setItem("6", e.target.value);
+            }}
             className="form-select"
           >
             <option value="">בחר אופציה</option>
@@ -241,7 +248,11 @@ function OpeningParagraph({ updateDoc }) {
             value={locationType}
             onChange={(e) => {
               setLocationType(e.target.value);
-              if (e.target.value !== "אחר") setCustomLocationType("");
+              localStorage.setItem("7", e.target.value);
+              if (e.target.value !== "אחר") {
+                setCustomLocationType("");
+                localStorage.removeItem("1"); // Clear custom location type if not "אחר"
+              }
             }}
             className="form-select"
           >
@@ -255,21 +266,21 @@ function OpeningParagraph({ updateDoc }) {
           </select>
 
           {locationType === "אחר" && (
-            <input
-              type="text"
-              className="input-field"
-              placeholder="הכנס סוג מיקום"
+            <TextAndInput
+              label={1}
               value={customLocationType}
-              onChange={(e) => setCustomLocationType(e.target.value)}
+              setValue={setCustomLocationType}
+              type="text"
+              placeholder="הכנס סוג מיקום"
             />
           )}
 
-          <input
-            type="text"
-            className="input-field"
-            placeholder="הכנס מיקום"
+          <TextAndInput
+            label={2}
             value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            setValue={setLocation}
+            type="text"
+            placeholder="הכנס מיקום"
           />
         </div>
       </div>
@@ -277,24 +288,35 @@ function OpeningParagraph({ updateDoc }) {
         <p>
           בתאריך{" "}
           <TextAndInput
+            label={3}
             type="date"
             value={surveyDate}
             setValue={setSurveyDate}
           />{" "}
           נערך סיור ב -{" "}
-          {locationType === "אחר" && customLocationType
-            ? customLocationType
-            : locationType || "_________"}{" "}
+          {(locationType === "אחר" && 
+            (localStorage.getItem("1") || customLocationType))
+            ? (localStorage.getItem("1") || customLocationType)
+            : (localStorage.getItem("7") || locationType || "_________")}{" "}
           הנ"ל ע"י מהנדס{" "}
-          <TextAndInput value={engineer} setValue={setEngineer} />.
+          <TextAndInput 
+            label={4}
+            value={engineer} 
+            setValue={setEngineer} 
+          />.
         </p>
         <p>
-          מטרת הסקר הינה בדיקה וויזואלית לקונס' {meterial || "_________"} ב -{" "}
-          {locationType === "אחר" && customLocationType
-            ? customLocationType
-            : locationType || "_________"}{" "}
-          {location || "_________"} ומתן חוות דעת למצב של{" "}
-          <TextAndInput value={opinion} setValue={setOpinion} />.
+          מטרת הסקר הינה בדיקה וויזואלית לקונס' {localStorage.getItem("6") || meterial || "_________"} ב -{" "}
+          {(locationType === "אחר" && 
+            (localStorage.getItem("1") || customLocationType))
+            ? (localStorage.getItem("1") || customLocationType)
+            : (localStorage.getItem("7") || locationType || "_________")}{" "}
+          {localStorage.getItem("2") || location || "_________"} ומתן חוות דעת למצב של{" "}
+          <TextAndInput 
+            label={5}
+            value={opinion} 
+            setValue={setOpinion} 
+          />.
         </p>
         <p>
           הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים

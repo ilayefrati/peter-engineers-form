@@ -16,6 +16,7 @@ function TextAndInput({ label, placeholder, type, value, setValue }) {
         onChange: (selectedDates) => {
           const formattedDate = selectedDates[0].toLocaleDateString("he-IL"); // Format to only show date
           setValue(formattedDate);
+          localStorage.setItem(label, formattedDate);
         },
       });
     }
@@ -23,17 +24,18 @@ function TextAndInput({ label, placeholder, type, value, setValue }) {
 
   function handleChange(e) {
     setValue(e.target.value);
+    localStorage.setItem(label, e.target.value);
   }
 
   return (
     <div className="input-container">
-      {label && <label>{label}</label>}
+      {label && !Number(label) && <label>{label}</label>}
       <input
         ref={inputRef}
         placeholder={placeholder || (type === "date" ? "dd/mm/yyyy" : "הכנס טקסט")}
         className="input-field"
         type={type === "date" ? "text" : type} // Set to "text" if type is "date" for compatibility with flatpickr
-        value={value}
+        value={localStorage.getItem(label) || value}
         onChange={type === "date" ? () => {} : handleChange} // Disable onChange for date input
         required
       />

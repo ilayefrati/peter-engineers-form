@@ -116,7 +116,7 @@ const DataTable = () => {
                         className="form-select"
                       >
                         <option value="">בחר ליקוי</option>
-                        <option value="סדק">קורוזיה מתקדמת</option>
+                        <option value="קורוזיה מתקדמת">קורוזיה מתקדמת</option>
                         <option value="חלודה קלה">חלודה קלה</option>
                         <option value="התפוררות">התפוררות</option>
                         <option value="שבר">שבר</option>
