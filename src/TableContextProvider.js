@@ -27,13 +27,55 @@ export const TableContextProvider = ({
     return savedTable ? JSON.parse(savedTable) : [];
   });
 
+  const MAX_IMAGE_SIZE = 600;
+  const IMAGE_QUALITY = 0.5;
+
+  // Add new compress image function
+  const compressImage = (base64String) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = base64String;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if (width > height) {
+          if (width > MAX_IMAGE_SIZE) {
+            height *= MAX_IMAGE_SIZE / width;
+            width = MAX_IMAGE_SIZE;
+          }
+        } else {
+          if (height > MAX_IMAGE_SIZE) {
+            width *= MAX_IMAGE_SIZE / height;
+            height = MAX_IMAGE_SIZE;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        
+        // Use sharpen effect to maintain clarity despite compression
+        ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Convert to base64 with reduced quality
+        const compressedBase64 = canvas.toDataURL('image/jpeg', IMAGE_QUALITY);
+        resolve(compressedBase64);
+      };
+      img.onerror = reject;
+    });
+  };
+
   // Save table data to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('tableData', JSON.stringify(table));
   }, [table]);
 
-  // Function to handle input changes for a row, including image and deficiency
-  const handleInputChange = (
+  // Modify handleInputChange to compress images
+  const handleInputChange = async (
     index,
     field,
     value,
@@ -42,7 +84,17 @@ export const TableContextProvider = ({
   ) => {
     const newTable = [...table];
 
-    if (field === "deficiencies") {
+    if (field === "image") {
+      try {
+        // Compress the image before storing
+        const compressedImage = await compressImage(value);
+        newTable[index][field] = compressedImage;
+      } catch (e) {
+        console.error('Error compressing image:', e);
+        // Fall back to original image if compression fails
+        newTable[index][field] = value;
+      }
+    } else if (field === "deficiencies") {
       if (!newTable[index][field][deficiencyIndex]) {
         newTable[index][field][deficiencyIndex] = {
           value: "",
@@ -65,7 +117,13 @@ export const TableContextProvider = ({
     } else {
       newTable[index][field] = value;
     }
-    setTable(newTable);
+    
+    try {
+      setTable(newTable);
+    } catch (e) {
+      console.error('Error updating table:', e);
+      alert('שגיאה בשמירת הנתונים. נא למחוק חלק מהתמונות ולנסות שוב.');
+    }
   };
 
   // Function to add a new deficiency

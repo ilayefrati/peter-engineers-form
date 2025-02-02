@@ -11,36 +11,94 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
     return savedImages ? JSON.parse(savedImages) : [];
   });
   const [showRenderedImages, setShowRenderedImages] = useState(false);
+  const [error, setError] = useState(null);
+  
+  const MAX_IMAGES = 15; // Increased from 5 to 15
+  const MAX_IMAGE_SIZE = 600; // Reduced from 800 to 600 pixels
+  const IMAGE_QUALITY = 0.5; // Reduced from 0.7 to 0.5 for more compression
 
-  // Save images to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem('imagesData', JSON.stringify(images));
-  }, [images]);
-
-  // Convert file to base64
-  const fileToBase64 = (file) => {
+  // Compress image and convert to base64
+  const compressImage = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // Calculate new dimensions while maintaining aspect ratio
+          if (width > height) {
+            if (width > MAX_IMAGE_SIZE) {
+              height *= MAX_IMAGE_SIZE / width;
+              width = MAX_IMAGE_SIZE;
+            }
+          } else {
+            if (height > MAX_IMAGE_SIZE) {
+              width *= MAX_IMAGE_SIZE / height;
+              height = MAX_IMAGE_SIZE;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          
+          // Use sharpen effect to maintain clarity despite compression
+          ctx.imageSmoothingEnabled = true;
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Convert to base64 with reduced quality
+          const base64String = canvas.toDataURL('image/jpeg', IMAGE_QUALITY);
+          resolve(base64String);
+        };
+        img.onerror = reject;
+      };
+      reader.onerror = reject;
     });
   };
+
+  // Save images to localStorage with error handling
+  useEffect(() => {
+    try {
+      localStorage.setItem('imagesData', JSON.stringify(images));
+      setError(null);
+    } catch (e) {
+      setError('לא ניתן לשמור את התמונות. נא למחוק חלק מהתמונות ולנסות שוב.');
+      // Revert to previous state if storage fails
+      const savedImages = localStorage.getItem('imagesData');
+      setImages(savedImages ? JSON.parse(savedImages) : []);
+    }
+  }, [images]);
 
   // Handle file selection (file, gallery, or camera)
   const handleImageChange = async (event) => {
     const files = Array.from(event.target.files);
-    const newImages = await Promise.all(
-      files.map(async (file) => {
-        const base64String = await fileToBase64(file);
-        return {
-          id: Math.random().toString(36).substr(2, 9),
-          base64: base64String, // Store base64 version for localStorage
-          title: "",
-        };
-      })
-    );
-    setImages((prevImages) => [...prevImages, ...newImages]);
+    
+    // Check if adding new images would exceed the limit
+    if (images.length + files.length > MAX_IMAGES) {
+      setError(`ניתן להעלות מקסימום ${MAX_IMAGES} תמונות`);
+      return;
+    }
+
+    try {
+      const newImages = await Promise.all(
+        files.map(async (file) => {
+          const base64String = await compressImage(file);
+          return {
+            id: Math.random().toString(36).substr(2, 9),
+            base64: base64String,
+            title: "",
+          };
+        })
+      );
+      setImages((prevImages) => [...prevImages, ...newImages]);
+    } catch (e) {
+      setError('אירעה שגיאה בעת העלאת התמונות. נא לנסות שוב.');
+    }
   };
 
   // Update image title
@@ -128,33 +186,39 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
 
   return (
     <div className="container">
-      {/* Image selection (file, gallery, camera) */}
+      {error && <div className="error-message">{error}</div>}
       <div className="uploader-box">
-        <input
-          id="fileInput"
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleImageChange}
-          className="input-file"
-        />
-        <label htmlFor="fileInput">
-          <div className="upload-icon" />
-          <p>העלה תמונה</p>
-        </label>
-        <input
-          id="cameraInput"
-          type="file"
-          accept="image/*"
-          multiple
-          capture="environment"
-          onChange={handleImageChange}
-          className="input-file"
-        />
-        <label htmlFor="cameraInput">
-          <div className="camera-icon" />
-          <p>צלם תמונה</p>
-        </label>
+        {images.length < MAX_IMAGES ? (
+          <>
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="input-file"
+            />
+            <label htmlFor="fileInput">
+              <div className="upload-icon" />
+              <p>העלה תמונה</p>
+            </label>
+            <input
+              id="cameraInput"
+              type="file"
+              accept="image/*"
+              multiple
+              capture="environment"
+              onChange={handleImageChange}
+              className="input-file"
+            />
+            <label htmlFor="cameraInput">
+              <div className="camera-icon" />
+              <p>צלם תמונה</p>
+            </label>
+          </>
+        ) : (
+          <p className="max-images-message">הגעת למספר המקסימלי של תמונות</p>
+        )}
       </div>
 
       {/* Preview selected images */}

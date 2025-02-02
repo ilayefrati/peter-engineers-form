@@ -96,3 +96,20 @@
 .rendered-item {
     margin-bottom: 10px;
 }
+
+.error-message {
+  color: #ff4444;
+  background-color: #ffe6e6;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: center;
+  direction: rtl;
+}
+
+.max-images-message {
+  color: #666;
+  text-align: center;
+  margin: 10px 0;
+  direction: rtl;
+}

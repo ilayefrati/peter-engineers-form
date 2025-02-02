@@ -10,8 +10,13 @@ const DataTable = () => {
   const handleImageUpload = (index, file) => {
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        handleInputChange(index, "image", reader.result);
+      reader.onloadend = async () => {
+        try {
+          await handleInputChange(index, "image", reader.result);
+        } catch (error) {
+          console.error('Error uploading image:', error);
+          alert('שגיאה בהעלאת התמונה. נא לנסות שוב.');
+        }
       };
       reader.readAsDataURL(file);
     }
