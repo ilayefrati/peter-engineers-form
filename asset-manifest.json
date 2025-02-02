@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/peter-engineers-form/static/css/main.4458c22b.css",
-    "main.js": "/peter-engineers-form/static/js/main.b48ca686.js",
+    "main.css": "/peter-engineers-form/static/css/main.f435c9a4.css",
+    "main.js": "/peter-engineers-form/static/js/main.3b2adab1.js",
     "static/js/453.daa47f1d.chunk.js": "/peter-engineers-form/static/js/453.daa47f1d.chunk.js",
     "static/media/upload_images_icon.png": "/peter-engineers-form/static/media/upload_images_icon.28147b491023a24414cc.png",
     "index.html": "/peter-engineers-form/index.html",
-    "main.4458c22b.css.map": "/peter-engineers-form/static/css/main.4458c22b.css.map",
-    "main.b48ca686.js.map": "/peter-engineers-form/static/js/main.b48ca686.js.map",
+    "main.f435c9a4.css.map": "/peter-engineers-form/static/css/main.f435c9a4.css.map",
+    "main.3b2adab1.js.map": "/peter-engineers-form/static/js/main.3b2adab1.js.map",
     "453.daa47f1d.chunk.js.map": "/peter-engineers-form/static/js/453.daa47f1d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4458c22b.css",
-    "static/js/main.b48ca686.js"
+    "static/css/main.f435c9a4.css",
+    "static/js/main.3b2adab1.js"
   ]
 }
