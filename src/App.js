@@ -236,6 +236,11 @@ function App() {
     });
   };
 
+  const handleClearForm = () => {
+    localStorage.clear();
+    window.location.reload(); // Reload the page to reset all states
+  };
+
   return (
     <>
       <FormHeader />
@@ -260,11 +265,15 @@ function App() {
           <DataTable />
         </TableContextProvider>
         <div className="buttons-container">
-          <Button type="primary" text='שלח דו"ח' />
           <Button
-            type="secondary"
-            text= {isGenerating ? '...מוריד' : 'הורד דו"ח'}
+            type="primary"
+            text={isGenerating ? '...מוריד' : 'הורד דו"ח'}
             onClick={() => setButtonClicked(true)}
+          />
+          <Button 
+            type="secondary" 
+            text="נקה טופס" 
+            onClick={handleClearForm}
           />
         </div>
       </div>
