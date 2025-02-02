@@ -3,19 +3,41 @@ import "./ImagesUploader.css"; // Importing CSS for styling
 import ImageAndTitle from "./ImageAndTitle";
 import Button from "./Button";
 import { Paragraph, TextRun, ImageRun, AlignmentType } from "docx"; // Import docx components
+import { canStoreData, MAX_STORAGE_SIZE } from './utils/storageManager';
 
 function ImagesUploader({ updateImagesUploaderDoc }) {
   const [images, setImages] = useState(() => {
-    // Initialize images from localStorage if available
+    // Initialize images from localStorage if available, M
     const savedImages = localStorage.getItem('imagesData');
     return savedImages ? JSON.parse(savedImages) : [];
   });
   const [showRenderedImages, setShowRenderedImages] = useState(false);
   const [error, setError] = useState(null);
+  const [isStorageFull, setIsStorageFull] = useState(false);
   
-  const MAX_IMAGES = 15; // Increased from 5 to 15
-  const MAX_IMAGE_SIZE = 600; // Reduced from 800 to 600 pixels
-  const IMAGE_QUALITY = 0.5; // Reduced from 0.7 to 0.5 for more compression
+  const MAX_IMAGE_SIZE = 600;
+  const IMAGE_QUALITY = 0.5;
+
+  // Function to check localStorage usage
+  const checkStorageUsage = () => {
+    let total = 0;
+    for (let key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) {
+        total += (localStorage[key].length * 2) / 1024 / 1024; // Size in MB
+      }
+    }
+    setIsStorageFull(total >= MAX_STORAGE_SIZE * 0.95); // Now using imported MAX_STORAGE_SIZE
+    return total;
+  };
+
+  // Modify canAddImage to use the storage manager
+  const canAddImage = async (base64String) => {
+    const newImageSize = (base64String.length * 2); // Size in bytes
+    if (!canStoreData(newImageSize)) {
+      throw new Error('אין מספיק מקום לשמור את התמונה. נא למחוק תמונות קיימות ולנסות שוב.');
+    }
+    return true;
+  };
 
   // Compress image and convert to base64
   const compressImage = (file) => {
@@ -78,16 +100,12 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
   const handleImageChange = async (event) => {
     const files = Array.from(event.target.files);
     
-    // Check if adding new images would exceed the limit
-    if (images.length + files.length > MAX_IMAGES) {
-      setError(`ניתן להעלות מקסימום ${MAX_IMAGES} תמונות`);
-      return;
-    }
-
     try {
       const newImages = await Promise.all(
         files.map(async (file) => {
           const base64String = await compressImage(file);
+          // Check if we can store the new image
+          await canAddImage(base64String);
           return {
             id: Math.random().toString(36).substr(2, 9),
             base64: base64String,
@@ -97,7 +115,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
       );
       setImages((prevImages) => [...prevImages, ...newImages]);
     } catch (e) {
-      setError('אירעה שגיאה בעת העלאת התמונות. נא לנסות שוב.');
+      setError(e.message || 'אירעה שגיאה בעת העלאת התמונות. נא לנסות שוב.');
     }
   };
 
@@ -184,11 +202,16 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
     }
   }, [images, updateImagesUploaderDoc, showRenderedImages]);
 
+  // Check storage on component mount and when images change
+  useEffect(() => {
+    checkStorageUsage();
+  }, [images]);
+
   return (
     <div className="container">
       {error && <div className="error-message">{error}</div>}
       <div className="uploader-box">
-        {images.length < MAX_IMAGES ? (
+        {!isStorageFull ? (
           <>
             <input
               id="fileInput"
@@ -217,7 +240,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
             </label>
           </>
         ) : (
-          <p className="max-images-message">הגעת למספר המקסימלי של תמונות</p>
+          <p className="max-images-message">הגעת למקסימום נפח האחסון. נא למחוק תמונות קיימות כדי להוסיף חדשות</p>
         )}
       </div>
 

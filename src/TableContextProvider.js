@@ -10,6 +10,7 @@ import {
   TextDirection,
   WidthType,
 } from "docx";
+import { canStoreData, MAX_STORAGE_SIZE } from './utils/storageManager';
 
 // Create a context to store the table data
 export const TableContext = createContext();
@@ -29,6 +30,28 @@ export const TableContextProvider = ({
 
   const MAX_IMAGE_SIZE = 600;
   const IMAGE_QUALITY = 0.5;
+
+  // Function to check localStorage usage
+  const checkStorageUsage = () => {
+    let total = 0;
+    for (let key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) {
+        total += (localStorage[key].length * 2) / 1024 / 1024; // Size in MB
+      }
+    }
+    return total;
+  };
+
+  // Function to estimate if new image can be stored
+  const canAddImage = async (base64String) => {
+    const currentUsage = checkStorageUsage();
+    const newImageSize = (base64String.length * 2) / 1024 / 1024; // Size in MB
+    
+    if (currentUsage + newImageSize > MAX_STORAGE_SIZE) {
+      throw new Error('אין מספיק מקום לשמור את התמונה. נא למחוק תמונות קיימות ולנסות שוב.');
+    }
+    return true;
+  };
 
   // Add new compress image function
   const compressImage = (base64String) => {
@@ -74,7 +97,7 @@ export const TableContextProvider = ({
     localStorage.setItem('tableData', JSON.stringify(table));
   }, [table]);
 
-  // Modify handleInputChange to compress images
+  // Modify handleInputChange to use storage manager
   const handleInputChange = async (
     index,
     field,
@@ -86,13 +109,18 @@ export const TableContextProvider = ({
 
     if (field === "image") {
       try {
-        // Compress the image before storing
         const compressedImage = await compressImage(value);
+        const newImageSize = (compressedImage.length * 2); // Size in bytes
+        
+        if (!canStoreData(newImageSize)) {
+          throw new Error('אין מספיק מקום לשמור את התמונה. נא למחוק תמונות קיימות ולנסות שוב.');
+        }
+        
         newTable[index][field] = compressedImage;
       } catch (e) {
-        console.error('Error compressing image:', e);
-        // Fall back to original image if compression fails
-        newTable[index][field] = value;
+        console.error('Error handling image:', e);
+        alert(e.message || 'שגיאה בשמירת התמונה. נא לנסות שוב.');
+        return;
       }
     } else if (field === "deficiencies") {
       if (!newTable[index][field][deficiencyIndex]) {

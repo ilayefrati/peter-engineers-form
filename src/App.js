@@ -9,6 +9,8 @@ import DataTable from "./DataTable";
 import ImagesUploader from "./ImagesUploader";
 import Button from "./Button";
 import "./App.css";
+import StorageIndicator from './components/StorageIndicator';
+
 import {
   Document,
   Packer,
@@ -245,6 +247,7 @@ function App() {
     <>
       <FormHeader />
       <div className="classic-page">
+      <StorageIndicator />
         <FirstPage
           updateDoc={setOpeningParagraphElements}
           updateStatusDoc={setStatusTableElements}
