@@ -93,22 +93,16 @@ function OpeningParagraph({ updateDoc }) {
           new TextRun({
             text: `הנדון: דו"ח סקר ויזואלי לאלמנטי קונסטרוקציה ${
               localStorage.getItem("6") || meterial || "_________"
-            }`,
+            } `,
             font: "David",
             size: 32,
             bold: true,
+            underline: true,
             rtl: true,
             language: "he-IL",
           }),
-        ],
-      }),
-
-      new Paragraph({
-        alignment: AlignmentType.CENTER,
-        spacing: { line: 360, after: 200 },
-        children: [
           new TextRun({
-            text: `מיקום: ${
+            text: `ב${
               locationType === "אחר" && 
               (localStorage.getItem("1") || customLocationType)
                 ? (localStorage.getItem("1") || customLocationType)
@@ -117,6 +111,7 @@ function OpeningParagraph({ updateDoc }) {
             font: "David",
             size: 32,
             bold: true,
+            underline: true,
             rtl: true,
             language: "he-IL",
           }),
@@ -126,7 +121,7 @@ function OpeningParagraph({ updateDoc }) {
       new Paragraph({ text: "", spacing: { after: 200 } }),
 
       new Paragraph({
-        alignment: AlignmentType.CENTER,
+        alignment: AlignmentType.RIGHT,
         spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
@@ -141,7 +136,13 @@ function OpeningParagraph({ updateDoc }) {
             rtl: true,
             language: "he-IL",
           }),
-          new TextRun({ break: 1 }),
+        ],
+      }),
+
+      new Paragraph({
+        alignment: AlignmentType.RIGHT,
+        spacing: { line: 360, after: 200 },
+        children: [
           new TextRun({
             text: `מטרת הסקר הינה בדיקה וויזואלית לקונסטרוקציית ${
               localStorage.getItem("6") || meterial || "_________"
@@ -158,7 +159,13 @@ function OpeningParagraph({ updateDoc }) {
             rtl: true,
             language: "he-IL",
           }),
-          new TextRun({ break: 1 }),
+        ],
+      }),
+
+      new Paragraph({
+        alignment: AlignmentType.RIGHT,
+        spacing: { line: 360, after: 200 },
+        children: [
           new TextRun({
             text: `הבדיקה וחוות הדעת אינם כוללים התייחסות למצבי קיצון או למקרים אקסצנטרים - רעידת אדמה/פעולות חריגות/עומסים חריגים במבנה וכדומה`,
             font: "David",
@@ -167,8 +174,9 @@ function OpeningParagraph({ updateDoc }) {
             language: "he-IL",
           }),
         ],
-      }),      
+      }),
     ];
+
 
     // Pass the generated doc elements to the parent
     updateDoc(docElements);

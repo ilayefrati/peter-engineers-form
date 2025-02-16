@@ -170,7 +170,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
 
           return [
             new Paragraph({
-              alignment: AlignmentType.CENTER,
+              alignment: AlignmentType.RIGHT,
               children: [
                 new TextRun({
                   text: titleText,
@@ -187,11 +187,11 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
               children: [
                 new ImageRun({
                   data: imageBuffer,
-                  transformation: { width: 150, height: 150 },
+                  transformation: { width: 300, height: 300 },
                 }),
               ],
             }),
-            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({ text: "", spacing: { after: 500 } }),
           ];
         });
 

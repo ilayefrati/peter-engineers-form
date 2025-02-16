@@ -25,6 +25,7 @@ import {
   WidthType,
   Footer,
   Header,
+  PageNumber,
 } from "docx";
 
 function App() {
@@ -165,28 +166,53 @@ function App() {
               ],
             }),
           },
+          footers: {
+            default: new Footer({
+              children: [
+                new Paragraph({
+                  alignment: AlignmentType.CENTER,
+                  children: [    
+                    new TextRun({
+                      children: [PageNumber.CURRENT],
+                      font: "David",
+                      size: 20,
+                    }),
+                  ],
+                }),
+                new Paragraph({
+                  alignment: AlignmentType.CENTER,
+                  children: [
+                    new ImageRun({
+                      data: footerImageData,
+                      transformation: { width: 600, height: 100 },
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          },
           children: [
             ...openingParagraphElements,
-            new Paragraph({ text: "", spacing: { after: 400 } }),
             new Paragraph({
               children: [
                 new TextRun({
                   text: 'דרגת החומרה של אלמנט ודחיפות הביצוע יסומנו עפ"י הטבלה הבאה',
+                  font: "David",
                   size: 24,
                   language: "he-IL",
                   rtl: true,
                 }),
-                new TextRun({ text: "", break: 1 }),
                 new TextRun({
-                  text: "מדורג מהדחיפות הגבוהה אל הנמוכה",
+                  text: " - מדורג מהדחיפות הגבוהה אל הנמוכה",
+                  font: "David",
                   size: 24,
                   language: "he-IL",
+                  rtl: true,
                 }),
               ],
-              font: "David",
-              alignment: AlignmentType.CENTER,
+              alignment: AlignmentType.RIGHT,
               textDirection: TextDirection.RIGHT_TO_LEFT,
-              spacing: { after: 200 },
+              spacing: { line: 360, after: 200 },
             }),
             new Paragraph({
               children: [
@@ -206,21 +232,6 @@ function App() {
             new Paragraph({ children: [], pageBreakBefore: true }),
             ...tableElements,
           ],
-          footers: {
-            default: new Footer({
-              children: [
-                new Paragraph({
-                  alignment: AlignmentType.CENTER,
-                  children: [
-                    new ImageRun({
-                      data: footerImageData,
-                      transformation: { width: 600, height: 100 },
-                    }),
-                  ],
-                }),
-              ],
-            }),
-          },
         },
       ],
     });

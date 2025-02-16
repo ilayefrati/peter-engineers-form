@@ -215,8 +215,8 @@ export const TableContextProvider = ({
                     new ImageRun({
                       data: row.image.split(",")[1],
                       transformation: {
-                        width: 80, // Set desired width
-                        height: 80, // Set desired height
+                        width: 150, // Set desired width
+                        height: 150, // Set desired height
                       },
                     }),
                   ],
@@ -369,24 +369,24 @@ export const TableContextProvider = ({
         });
       });
 
-      // DataTable: Create the actual table for the docx file
+      // DataTable: Create the actual DataTable for the docx file
       const dataTableElement = new Table({
         visuallyRightToLeft: true,
         width: {
           size: 100,
           type: WidthType.AUTO,
         },
-        columnWidths: [1000, 1000, 1000],
-
+        columnWidths: [1000, 1000, 1000, 1000, 1000, 1000, 3000],  // One value for each column
         rows: [
           // Add table header
           new TableRow({
+            tableHeader: true,
             children: [
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -406,8 +406,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -427,8 +427,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -448,8 +448,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -469,8 +469,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -490,8 +490,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -511,8 +511,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -533,7 +533,7 @@ export const TableContextProvider = ({
           }),
           ...dataTableRows, // Add the rows
         ],
-        alignment: AlignmentType.CENTER, // Center the table itself
+        alignment: AlignmentType.CENTER,
       });
 
       // Pass the DataTable to App
@@ -589,17 +589,17 @@ export const TableContextProvider = ({
           size: 100,
           type: WidthType.AUTO,
         },
-        columnWidths: [1000, 1000, 1000],
-
+        columnWidths: [1000, 1000],  // Two columns for SumTable
         rows: [
           // Add table header
           new TableRow({
+            tableHeader: true,
             children: [
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -619,8 +619,8 @@ export const TableContextProvider = ({
               new TableCell({
                 margins: cellPadding,
                 shading: {
-                  fill: "3f6cb1", // Light blue color (hexadecimal)
-                }, // Apply padding to the header cells // Apply padding to the header cells
+                  fill: "3f6cb1",
+                },
                 children: [
                   new Paragraph({
                     children: [
@@ -639,9 +639,9 @@ export const TableContextProvider = ({
               }),
             ],
           }),
-          ...sumTableRows, // Add the rows
+          ...sumTableRows,
         ],
-        alignment: AlignmentType.CENTER, // Center the table itself
+        alignment: AlignmentType.CENTER,
       });
 
       // Pass the SumTable to App
