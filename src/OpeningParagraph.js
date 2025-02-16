@@ -48,7 +48,7 @@ function OpeningParagraph({ updateDoc }) {
         spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `תאריך: ${localStorage.getItem("תאריך:") || date || "_________"}`,
+            text: `\u202Bתאריך:${localStorage.getItem("תאריך:") || date || "_________"}\u202C`,
             font: "David",
             size: 24,
             rtl: true,
@@ -91,7 +91,7 @@ function OpeningParagraph({ updateDoc }) {
         spacing: { line: 360, after: 200 },
         children: [
           new TextRun({
-            text: `הנדון: דו"ח סקר ויזואלי לאלמנטי קונסטרוקציה ${
+            text: `הנדון: דו"ח סקר ויזואלי לאלמנטי ${
               localStorage.getItem("6") || meterial || "_________"
             } `,
             font: "David",
