@@ -142,37 +142,9 @@ function App() {
     const headerImageData = await getImage(headerURL);
     setIsGenerating(true);
     const doc = new Document({
-      features: {
-        updateFields: true,
-      },
-      styles: {
-        default: {
-          document: {
-            run: {
-              font: "David",
-              language: {
-                value: "he-IL",
-              },
-            },
-            paragraph: {
-              alignment: AlignmentType.RIGHT,
-              bidirectional: true,
-            },
-          },
-        },
-      },
       sections: [
         {
           properties: {
-            page: {
-              margin: {
-                top: 1000,
-                right: 1000,
-                bottom: 1000,
-                left: 1000,
-              },
-            },
-            bidi: true, // Enable bidirectional text support
             footerType: {
               default: true,
               first: false,
@@ -283,37 +255,7 @@ function App() {
       const file = new Blob([blob], {
         type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       });
-      
-      // Create a more descriptive filename with date
-      const today = new Date();
-      const dateStr = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-      const fileName = `דוח_סקר_${dateStr}.docx`;
-      
-      // Save the file
-      saveAs(file, fileName);
-      
-      // Create a URL for the blob
-      const fileURL = URL.createObjectURL(file);
-      
-      // Create an invisible link element
-      const link = document.createElement('a');
-      link.href = fileURL;
-      link.download = fileName;
-      link.target = "_blank"; // Open in new tab/window
-      
-      // Append to the document, click it, and remove it
-      document.body.appendChild(link);
-      
-      // Try to open the file after a short delay to ensure it's saved first
-      setTimeout(() => {
-        // Attempt to open the file
-        window.open(fileURL, '_blank');
-        
-        // Clean up
-        URL.revokeObjectURL(fileURL);
-        document.body.removeChild(link);
-      }, 1000);
-      
+      saveAs(file, "example.docx");
       setButtonClicked(false);
       setIsTableDataReady(false);
       setIsSumTableDataReady(false);
