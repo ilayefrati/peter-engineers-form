@@ -191,7 +191,7 @@ function ImagesUploader({ updateImagesUploaderDoc }) {
                 }),
               ],
             }),
-            new Paragraph({ text: "", spacing: { after: 700 } }),
+            new Paragraph({ text: "", spacing: { after: 1000 } }),
           ];
         });
 
